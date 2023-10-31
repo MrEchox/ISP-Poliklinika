@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prisijungimas</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a class="logo"><img src="LOGO.png" alt="Logo" width="44" height="32"></a>
+        <a href="home.html">Pradžia</a>
+        <a href="info.html">Informacija</a>
+        <a class="right" href="register.html">Registracija</a>
+    </div>
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
+    <!-- ---- -->
+
+    <h2>Prisijungimas</h2> 
+    <form action="login_process.php" method="POST"> <!-- Change action into smt that actually does smt-->
+        <label for="email">El-paštas:</label>
+        <input type="email" id="email" name="email" class="inputfield" required>
+        <br><br>
+
+        <label for="password">Slaptažodis:</label>
+        <input type="password" id="password" name="password" class="inputfield" required>
+        <br><br>
+
+        <input type="submit" value="Log-in">
+        <br><br>
+
+        <p>Nauja paskyra?</p>
+        <a href="register.html">Registruokitės</a>
+    </form>
+</body>
+</html>
