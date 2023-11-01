@@ -64,13 +64,15 @@ footer {
     color: var(--text-color1);
     text-align: left;
     padding: 10px 5px;
+    position: fixed;
     bottom: 0;
+    width: 100%;
 }
 
 form {
     background-color: var(--primary-color1);
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto 75px;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
