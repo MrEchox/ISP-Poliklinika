@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Informacija</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a class="logo"><img src="LOGO.png" alt="Logo" width="44" height="32"></a>
+        <a href="home.html">Pradžia</a>
+        <a href="info.html">Informacija</a>
+        <a href="inventorius.html">Inventorius</a>
+        <a href="inventoriusUžsakymas.html">Inventoriaus užsakymas</a>
+        <a class="right" href="login.html">Prisijungimas</a>
+    </div>
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
+    <!-- ---- -->
+    <h2>Apsilankymo užklausos</h2>
+    <form class="tableForm">
+        <div class="container">
+            <label for="search">Search:</label>
+            <input type="text" id="filter" name="filter" class ="inputfield">
+            <input type="submit" value="filter">
+            <br><br><br><br>
+        </div>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Vartotjas</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>5681</td>
+                <td>Pacientas452</td>
+                <td class="buttonAD">
+                    <div>
+                        <input type="approve" value="Accept">
+                        <input type="deny" value="Deny">
+                    </div>
+                  </td>
+              </tr>
+              <tr>
+                <td>845</td>
+                <td>Gydytojas875</td>
+                <td class="buttonAD">
+                    <div>
+                        <input type="approve" value="Accept">
+                        <input type="deny" value="Deny">
+                    </div>
+                  </td>
+              </tr>
+        </table>
+        </form>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Informacija</title>
+    <title>Registracija</title>
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
@@ -20,16 +20,17 @@
     <br>
     <!-- ---- -->
 
-    <h2>Informacija</h2>
-    <br>
-    <p>Ši poliklinikos informacinė sistema atlikta kaip P170B114 Informacinių sistemų pagrindų modulio darbas.</p>
-    <br>
-    <ul>Darbą atliko komandą "KarOSai":
-        <li>Alanas Švažas</li>
-        <li>Mantas Šliogeris</li>
-        <li>Matas Pagalys</li>
-        <li>Ignas Matulevičius</li>
-    </ul>
+    <h2>Užsakymas</h2> 
+    <form action="ORDER.php" method="POST"> <!-- Change action into smt that actually does smt-->
+        <label for="itemName">Pavadinimas:</label>
+        <input type="itemName" id="itemName" name="itemName" class="inputfield" required>
+        <br><br>
 
+        <label for="count">Kiekis:</label>
+        <input type="count" id="count" name="count" class="inputfield" required>
+        <br><br>
+
+        <input type="submit" value="Order">
+    </form>
 </body>
 </html>
