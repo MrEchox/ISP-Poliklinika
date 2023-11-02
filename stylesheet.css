@@ -41,7 +41,7 @@ p,a {
 .navbar a {
     float: left;
     font-size: 16px;
-    color: white;
+    color: var(--text-color1);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -62,15 +62,17 @@ p,a {
 footer {
     background-color: var(--secondary-color1);
     color: var(--text-color1);
-    text-align: left;
+    text-align: center;
     padding: 10px 5px;
+    position: fixed;
     bottom: 0;
+    width: 100%;
 }
 
 form {
     background-color: var(--primary-color1);
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto 75px;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
@@ -93,6 +95,7 @@ label {
 }
 
 input[type="text"],
+input[type="textarea"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
