@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.welcome{
+    text-align: left;
+    padding: 15px;
+}
+
+.gydytojoInfo{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: 0 20px;
+    min-height: 400px;
+}
+
+.pacientai{
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pacientas{
+    position: relative;
+    background-color: var(--primary-color1);
+    padding: 10px 20px 0;
+    margin: 10px;
+    width: 125px;
+    min-height: 50px;
+    max-height: 70px;
+}
+.pacientas a{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+}
+
+.pacientas a:hover{
+    background-color: var(--secondary-color1);
+}
+
+.ataskaitos{
+    border: solid 1px #fff;
+    position: absolute;
+    top: 0;
+    left: 75%;
+    width: 500px;
+    height: 100%;
+    transform: translateX(-50%);
+
+}
+.ataskaitos h2, .siuntimas h2{
+    padding-top: 20px;
+}
+.ataskaitos form textarea{
+    width: 100%;
+    margin: 10px 0 20px;
+}
+
+.formaVaisto, .formaSiuntimo{
+    padding-bottom: 0;
+}
+
+.formaVaisto label, .formaAtaskaitos label, .formaSiuntimo label{
+    text-align: left;
+}
+
+.information{
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.asmenineInfo{
+    padding-bottom: 20px;
+}
+
+.profileInfo{
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: space-between;
+    border-top: solid 1px gray;
+}
