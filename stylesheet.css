@@ -92,7 +92,9 @@ label {
     color: var(--text-color1)
 }
 
+textarea,
 input[type="text"],
+input[type="tel"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
@@ -104,6 +106,7 @@ select {
     border-radius: 3px;
 }
 
+button,
 input[type="submit"] {
     background-color: var(--primary-color3);
     color: var(--text-color2);
@@ -117,6 +120,7 @@ input[type="submit"] {
     color: var(--text-color1);
 }
 
+button,
 input[type="submit"]:hover {
     background-color: var(--secondary-color3);
 }

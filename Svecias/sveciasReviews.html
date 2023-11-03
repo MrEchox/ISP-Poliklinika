@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atsiliepimo pateikimas</title>
+    <link rel="stylesheet" href="../stylesheet.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
+        <a href="../home.html">Pradžia</a>
+        <a href="../info.html">Informacija</a>
+        <a href="sveciasExamView.html">Tyrimai</a>
+        <a href="sveciasVisitation.html">Aplankymai</a>
+        <a href="sveciasReviews.html">Atsiliepimai</a>
+        <a class="right" href="../profile.html">Mano informacija</a>
+    </div>
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
+    <!-- ---- -->
+
+    <h2>Atsiliepimo pateikimas</h2> 
+    <form method="POST"> <!-- Change action into something that actually does something -->
+        <label for="doctorName">Gydytojo vardas ir pavardė:</label>
+        <input type="text" id="doctorName" name="doctorName" class="inputfield" required>
+        <br><br>
+
+        <label for="visitationDate">Nurodykite datą (neprivaloma)</label>
+        <input type="date" id="visitationDate" name="visitationDate" class="inputfield">
+        <br><br>
+
+        <!-- Review Section -->
+        <label for="reviewRating">Įvertinkite gydytoją:</label>
+        <br>
+        <div class="rating">
+            <input type="radio" id="star5" name="reviewRating" value="5">
+            <label for="star5">Puikiai</label>
+            <br>
+            <input type="radio" id="star4" name="reviewRating" value="4">
+            <label for="star4">Gerai</label>
+            <br>
+            <input type="radio" id="star3" name="reviewRating" value="3">
+            <label for="star3">Patenkinamai</label>
+            <br>
+            <input type="radio" id="star2" name="reviewRating" value="2">
+            <label for="star2">Prastai</label>
+            <br>
+            <input type="radio" id="star1" name="reviewRating" value="1">
+            <label for="star1">Labai prastai</label>
+        </div>
+        <br><br>
+
+        <label for="reviewText">Jūsų atsiliepimas:</label>
+        <textarea name="reviewText" rows="4" cols="40" class="inputfield" required></textarea>
+        <br><br>
+
+        <input type="submit" value="Pateikti atsiliepimą">
+        <br><br>
+    </form>
+</body>
+</html>
