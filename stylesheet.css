@@ -92,9 +92,8 @@ label {
     color: var(--text-color1)
 }
 
-textarea,
-input[type="text"],
 input[type="tel"],
+input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
