@@ -13,16 +13,16 @@
         <a href="inventorius.html">Inventorius</a>
         <a class="right" href="login.html">Prisijungimas</a>
     </div>
-    <footer>
-        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
-    </footer>
-    <br>
     <!-- ---- -->
 
     <h2>Registracija</h2> 
     <form action="registration_process.php" method="POST"> <!-- Change action into smt that actually does smt-->
         <label for="email">El-paštas:</label>
         <input type="email" id="email" name="email" class="inputfield" required>
+        <br><br>
+
+        <label for="phone">Telefono nr.:</label>
+        <input type="tel" id="phone" name="phone" class="inputfield" required>
         <br><br>
 
         <label for="password">Slaptažodis:</label>
@@ -53,11 +53,16 @@
         </select>
         <br><br>
 
-        <input type="submit" value="Register">
+        <input type="submit" value="Registruotis">
         <br><br>
 
         <p>Turite paskyrą?</p>
         <a href="login.html">Prisijunkite</a>
     </form>
+    
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
 </body>
 </html>
