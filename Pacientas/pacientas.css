@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.welcome{
+    text-align: left;
+    padding: 15px;
+}
+
+.gydytojoInfo{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: 0 20px;
+    min-height: 400px;
+}
+
+.pacientai{
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pacientas{
+    position: relative;
+    background-color: var(--primary-color1);
+    padding: 10px 20px 0;
+    margin: 10px;
+    width: 125px;
+    min-height: 50px;
+    max-height: 70px;
+}
+.pacientas a{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+}
+
+.pacientas a:hover{
+    background-color: var(--secondary-color1);
+}
+
+.ataskaitos{
+    border: solid 1px #fff;
+    position: absolute;
+    top: 0;
+    left: 75%;
+    width: 500px;
+    height: 100%;
+    transform: translateX(-50%);
+
+}
+.ataskaitos h2, .siuntimas h2{
+    padding-top: 20px;
+}
+.ataskaitos form textarea{
+    width: 100%;
+    margin: 10px 0 20px;
+}
+
+.formaVaisto, .formaSiuntimo{
+    padding-bottom: 0;
+}
+
+.formaVaisto label, .formaAtaskaitos label, .formaSiuntimo label{
+    text-align: left;
+}
+
+.information{
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.asmenineInfo{
+    padding-bottom: 20px;
+}
+
+.profileInfo{
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    justify-content: space-between;
+    border-top: solid 1px gray;
+}
+.buttonAD {
+    background: linear-gradient(to right, var(--primary-color2), var(--primary-color3)); /* Gradient background based on your color variables */
+    color: var(--text-color1); /* White text color */
+    border: none; /* No border */
+    padding: 15px 30px; /* Increased padding for a larger button */
+    font-size: 18px; /* Larger font size for the text inside the button */
+    margin: 20px; /* Increased margin to spread out the buttons */
+    cursor: pointer; /* Cursor to indicate it's clickable */
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transitions for shadow and transform */
+}
+
+.buttonAD:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+.buttonADT {
+    background-color: var(--primary-color2); /* Solid color background */
+    color: var(--text-color1); /* White text color */
+    border: 2px solid var(--primary-color3); /* Border to make button more defined */
+    border-radius: 2px; /* Slightly rounded corners */
+    padding: 8px 16px; /* Reduced padding for a more compact button */
+    margin: 5px; /* Reduced margin to lessen space around buttons */
+    cursor: pointer; /* Cursor to indicate it's clickable */
+    transition: background-color 0.3s ease-in-out; /* Smooth transition for background color */
+}
+
+.buttonADT:hover {
+    background-color: var(--primary-color3); /* Change background color on hover */
+}
+button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 5px 10px; /* Padding */
+    border: none; /* No border */
+    cursor: pointer; /* Cursor style */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 14px; /* Font size */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
