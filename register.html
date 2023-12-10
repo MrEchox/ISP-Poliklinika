@@ -15,7 +15,7 @@
     <!-- ---- -->
 
     <h2>Registracija</h2> 
-    <form action="registration_process.php" method="POST"> <!-- Change action into smt that actually does smt-->
+    <form action="./include/registration_process.php" method="POST">
         <label for="email">El-paštas:</label>
         <input type="email" id="email" name="email" class="inputfield" required>
         <br><br>
@@ -38,18 +38,6 @@
 
         <label for="last_name">Pavardė:</label>
         <input type="text" id="last_name" name="last_name" class="inputfield" required>
-        <br><br>
-
-        <label for="dob">Gimimo data:</label>
-        <input type="date" id="dob" name="dob" class="inputfield" required>
-        <br><br>
-
-        <label for="gender">Lytis:</label>
-        <select id="gender" name="gender" class="inputfield" required>
-            <option value="male">Vyras</option>
-            <option value="female">Moteris</option>
-            <option value="other">Kita</option>
-        </select>
         <br><br>
 
         <input type="submit" value="Registruotis">
