@@ -41,23 +41,6 @@ class Session {
         /* Determine if user is logged in */
         $this->logged_in = $this->checkLogin();
 
-        /**
-         * Set guest value to users not logged in, and update
-         * active guests table accordingly.
-         */
-        if (!$this->logged_in) {
-            $this->username = $_SESSION['username'] = GUEST_NAME;
-            $this->userlevel = GUEST_LEVEL;
-            $database->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
-        }
-        /* Update users last active timestamp */ else {
-            $database->addActiveUser($this->username, $this->time);
-        }
-
-        /* Remove inactive visitors from database */
-        $database->removeInactiveUsers();
-        $database->removeInactiveGuests();
-
         /* Set referrer page */
         if (isset($_SESSION['url'])) {
             $this->referrer = $_SESSION['url'];
