@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .form-container {
+            margin: 2em auto;
+            padding: 2em;
+            background: #f9f9f9;
+            border-radius: 8px;
+            max-width: 500px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 22px);
+            display: block;
+        }
+
+        .form-textarea {
+            resize: vertical; /* Allows the textarea to be resized vertically */
+            min-height: 100px; /* Minimum height */
+        }
+
+        .form-input[type="datetime-local"] {
+            cursor: pointer;
+        }
+
+        .form-submit {
+            padding: 10px 15px;
+            background-color: #454ADE;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            display: block;
+        }
+
+        .form-submit:hover {
+            background-color: #30358D;
+        }
+
+        /* Additional styles to match your stylesheet.css if needed */
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <form method="post" action="submit_answer.php">
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Name" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <textarea name="answer" placeholder="answer" class="form-textarea" required></textarea>
+        </div>
+        <div class="form-group">
+            <input type="datetime-local" name="selected_datetime" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" class="form-submit">
+        </div>
+    </form>
+</div>
+
+<script>
+    function updateCalendar() {
+        var month = $('#month').val();
+        // Logic to update the calendar days based on the selected month
+    }
+
+    $(document).ready(function() {
+        updateCalendar();
+    });
+</script>
+</body>
+</html>
