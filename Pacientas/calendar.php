@@ -150,7 +150,7 @@
 <body>
 
 <div class="header">
-    <h1>MedicalUI - Appointments</h1>
+    <h1>MedicalUI - Appointments AŠ IGNAAAAAASSS</h1>
 </div>
 
 <div class="calendar-header">
