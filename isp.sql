@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2023 at 03:18 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 14, 2023 at 12:05 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `isppoliklinika`
+-- Database: `isp`
 --
 
 -- --------------------------------------------------------
@@ -72,15 +72,17 @@ CREATE TABLE `gydytojas` (
   `id` int(11) NOT NULL,
   `Pareigos` varchar(40) NOT NULL,
   `Kabinetas` varchar(20) NOT NULL,
-  `fk_Naudotojas-EPastas` varchar(30) NOT NULL
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `gydytojas`
 --
 
-INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas-EPastas`) VALUES
-(1, 'Dermatologas', '111', 'Gydytojas@Gydytojas.lt');
+INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas_EPastas`) VALUES
+(1, 'Dermatologas', '111', 'Gydytojas@Gydytojas.lt'),
+(3, 'Šeimos Gyd.', 'Nepriskirtas', 'john@cena.com'),
+(4, 'Šeimos Gyd.', 'Nepriskirtas', 'mantas@mantas.com');
 
 -- --------------------------------------------------------
 
@@ -145,6 +147,8 @@ CREATE TABLE `naudotojas` (
 INSERT INTO `naudotojas` (`Vardas`, `Pavarde`, `EPastas`, `TelefonoNr`, `Slaptazodis`, `Role`) VALUES
 ('Administratorius', 'Administratorius', 'Admin@Admin.lt', '+1234567891', 'demo', 'Administratorius'),
 ('Gydytojas', 'Gydytojas', 'Gydytojas@Gydytojas.lt', '+1234567891', 'demo', 'Gydytojas'),
+('John', 'Cena', 'john@cena.com', '+3708612345', 'demo', 'Gydytojas'),
+('Mantas', 'Test', 'mantas@mantas.com', '+3708684624', 'm', 'Gydytojas'),
 ('Pacientas', 'Pacientas', 'Pacientas@Pacientas.lt', '+1234567891', 'demo', 'Pacientas'),
 ('Pacientas2', 'Pacientas2', 'Pacientas2@Pacientas.lt', '+1234567891', 'demo', 'Pacientas'),
 ('Svecias', 'Svecias', 'Svecias@Svecias.lt', '+1234567891', 'demo', 'Svecias');
@@ -277,7 +281,7 @@ ALTER TABLE `atsiliepimas`
 --
 ALTER TABLE `gydytojas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas-EPastas`);
+  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas_EPastas`);
 
 --
 -- Indexes for table `konsultacija`
@@ -347,7 +351,7 @@ ALTER TABLE `atsiliepimas`
 -- AUTO_INCREMENT for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -369,7 +373,7 @@ ALTER TABLE `atsiliepimas`
 -- Constraints for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
-  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas-EPastas`) REFERENCES `naudotojas` (`EPastas`);
+  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `konsultacija`
