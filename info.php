@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Pradžia</title>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informacija</title>
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
@@ -15,13 +16,24 @@
         <a href="Gydytojas/gydytojas.html">Gydytojo posisteme</a>
         <a href="Svecias/svecias.html">Svečio posisteme</a>
         <a href="Pacientas/pacientas.html">Paciento posisteme</a>
-        <a class="right" href="login.html">Prisijungimas</a>
+        <a class="right" href="login.php">Prisijungti</a>
     </div>
     <footer>
         <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
     </footer>
     <br>
     <!-- ---- -->
+
+    <h2>Informacija</h2>
+    <br>
+    <p>Ši poliklinikos informacinė sistema atlikta kaip P170B114 Informacinių sistemų pagrindų modulio darbas.</p>
+    <br>
+    <ul>Darbą atliko komanda "KarOSai":
+        <li>Alanas Švažas</li>
+        <li>Mantas Šliogeris</li>
+        <li>Matas Pagalys</li>
+        <li>Ignas Matulevičius</li>
+    </ul>
 
 </body>
 </html>

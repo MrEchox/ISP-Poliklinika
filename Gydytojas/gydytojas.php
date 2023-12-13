@@ -1,23 +1,41 @@
+<?php
+require '../config.php';
+if(!empty($_SESSION["id"])){
+    $sessionID = $_SESSION["id"];
+    $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+    $row = mysqli_fetch_assoc($result);
+}
+else{
+    header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pradžia</title>
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="stylesheet" href="../Pacientas/pacientas.css">
 </head>
 <body>
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-        <a href="../home.html">Pradžia</a>
-        <a href="../info.html">Informacija</a>
-        <a href="gydytojas.html">Pagrindinė informacija</a>
-        <a href="vaistas.html">Išrašyti vaistą</a>
-        <a href="siuntimas.html">Siuntimas</a>
-        <a class="right" href="profile.html">Asmeninė informacija</a>
-    </div>
-
-    <p class="welcome">Sveiki prisijungę <span><i>Gydytojo vardas</i> | Jūsų pacientai</span></p>
+    <?php
+        echo '<div class="navbar">';
+        echo '<a href="../index.php">Pradžia</a>';
+        if($row["Role"] == "Gydytojas"){
+            echo '<a href="gydytojas.php">Pagrindinė informacija</a>';
+            echo '<a href="vaistas.php">Išrašyti vaistą</a>';
+            echo '<a href="siuntimas.php">Siuntimas</a>';
+        }
+        else{
+            header("Location: ../index.php");
+        }
+        echo'<a class="right" href="../logout.php">Atsijungti</a>';
+        echo'<a class="right" href="profile.php">Asmeninė informacija</a>';
+        echo '</div>';
+    ?>
+    <!--Fix users: to take all from DB-->
+    <p class="welcome">Sveiki prisijungę <i><?php echo $row["Vardas"] . " " . $row["Pavarde"]?></i> | Jūsų pacientai</p>
     <div class="gydytojoInfo">
         <div class="pacientai">
             <div class="pacientas pacientas1"><a href="../Pacientas/paciento_profilils.html">Jonas Jonaitis <sub>#AAA001</sub></a></div>
@@ -32,11 +50,12 @@
             <div class="pacientas pacientas10"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
 
         </div>
+        <!-- Add in the DB after submit-->
         <div class="ataskaitos">
             <h2>Kurti naują ataskaitą</h2>
-            <form action="kurti_ataskaia.php" method="POST" class="formaAtaskaitos"> <!-- Change action into smt that actually does smt-->
+            <form action="" method="POST" class="formaAtaskaitos">
                 <label for="text">Pacientas:</label>
-                <select class="inputfield">
+                <select class="inputfield"> <!-- Choose from DB -->
                     <option value="default" >Pasirinkite pacientą</option>
                     <option value="1" >Jonas Jonauskas</option>
                     <option value="2">Petras Petrauskas</option>
@@ -54,7 +73,5 @@
     <footer>
         <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
     </footer>
-    <br>
-    <!-- ---- -->
 </body>
 </html>

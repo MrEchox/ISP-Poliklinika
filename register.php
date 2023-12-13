@@ -1,6 +1,39 @@
+<?php
+require 'config.php';
+if(!empty($_SESSION["id"])){
+    header("Location: index.php");
+}
+if(isset($_POST["submit"])){
+    $name = $_POST["first_name"];
+    $lastname = $_POST["last_name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
+    
+    $dublicate = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$email'");
+
+    if(mysqli_num_rows($dublicate) > 0){
+        echo "<script>alert('Šis E-paštas jau užimtas')</script>";
+    }
+    else{
+        if($password == $confirm_password){
+            $query = "INSERT INTO naudotojas VALUES('$name', '$lastname', '$email', '$phone', '$password', 'Svecias')";
+            mysqli_query($conn,$query);
+            echo "<script>alert('Sėkmingai užsiregistravote')</script>";
+            //header("Location: login.php");
+        }
+        else{
+            echo "<script>alert('Slaptažodžiai nesutampa')</script>";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registracija</title>
     <link rel="stylesheet" href="stylesheet.css">
 </head>
@@ -8,14 +41,12 @@
     <!-- NAVBAR -->
     <div class="navbar">
         <a class="logo"><img src="LOGO.png" alt="Logo" width="44" height="32"></a>
-        <a href="home.html">Pradžia</a>
-        <a href="info.html">Informacija</a>
-        <a class="right" href="login.html">Prisijungimas</a>
+        <a href="index.php">Pradžia</a>
+        <a href="info.php">Informacija</a>
     </div>
-    <!-- ---- -->
 
     <h2>Registracija</h2> 
-    <form action="registration_process.php" method="POST"> <!-- Change action into smt that actually does smt-->
+    <form action="" method="post">
         <label for="email">El-paštas:</label>
         <input type="email" id="email" name="email" class="inputfield" required>
         <br><br>
@@ -52,11 +83,11 @@
         </select>
         <br><br>
 
-        <input type="submit" value="Registruotis">
+        <button type="submit" name="submit">Registruotis</button>
         <br><br>
 
         <p>Turite paskyrą?</p>
-        <a href="login.html">Prisijunkite</a>
+        <a href="login.php">Prisijunkite</a>
     </form>
     
     <footer>
