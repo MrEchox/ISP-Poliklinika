@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pradžia</title>
+    <link rel="stylesheet" href="../stylesheet.css">
+    <link rel="stylesheet" href="../Pacientas/pacientas.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
+        <a href="../home.html">Pradžia</a>
+        <a href="../info.html">Informacija</a>
+        <a href="gydytojas.html">Pagrindinė informacija</a>
+        <a href="vaistas.html">Išrašyti vaistą</a>
+        <a href="siuntimas.html">Siuntimas</a>
+        <a class="right" href="profile.html">Asmeninė informacija</a>
+    </div>
+
+    <p class="welcome">Sveiki prisijungę <span><i>Gydytojo vardas</i> | Jūsų pacientai</span></p>
+    <div class="gydytojoInfo">
+        <div class="pacientai">
+            <div class="pacientas pacientas1"><a href="../Pacientas/paciento_profilils.html">Jonas Jonaitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas2"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA002</sub></a></div>
+            <div class="pacientas pacientas3"><a href="../Pacientas/paciento_profilils.html">Testas Testas <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas4"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas5"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas6"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas7"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas8"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas9"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+            <div class="pacientas pacientas10"><a href="../Pacientas/paciento_profilils.html">Petras Petraitis <sub>#AAA001</sub></a></div>
+
+        </div>
+        <div class="ataskaitos">
+            <h2>Kurti naują ataskaitą</h2>
+            <form action="kurti_ataskaia.php" method="POST" class="formaAtaskaitos"> <!-- Change action into smt that actually does smt-->
+                <label for="text">Pacientas:</label>
+                <select class="inputfield">
+                    <option value="default" >Pasirinkite pacientą</option>
+                    <option value="1" >Jonas Jonauskas</option>
+                    <option value="2">Petras Petrauskas</option>
+                </select>
+        
+                <label for="text">Aprašymas:</label>
+                <textarea type="text" id="aprasymas" name="aprasymas" class="inputfield" required rows="4" cols="50"></textarea>
+        
+                <input type="submit" value="Įrašyti">
+                <br><br>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
+    <!-- ---- -->
+</body>
+</html>

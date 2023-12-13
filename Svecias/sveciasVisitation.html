@@ -1,0 +1,50 @@
+<!-- Svečio posisteme -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Paciento aplankymas</title>
+    <link rel="stylesheet" href="../stylesheet.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
+        <a href="../home.html">Pradžia</a>
+        <a href="../info.html">Informacija</a>
+        <a href="sveciasExamView.html">Tyrimai</a>
+        <a href="sveciasVisitation.html">Aplankymai</a>
+        <a href="sveciasReviews.html">Atsiliepimai</a>
+        <a class="right" href="../profile.html">Mano informacija</a>
+    </div>
+    <footer>
+        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+    </footer>
+    <br>
+    <!-- ---- -->
+
+    <h2>Registracija paciento aplankymui</h2> 
+    <form method="POST"> <!-- Change action into smt that actually does smt-->
+        <label for="patientName">Paciento vardas ir pavardė:</label>
+        <input type="text" id="patientName" name="patientName" class="inputfield" required>
+        <br><br>
+
+        <label for="visitationDate">Kada norite aplankyti:</label>
+        <input type="date" id="visitationDate" name="visitationDate" class="inputfield" required>
+        <br><br>
+
+        <label for="visitationRelationship">Santykiai su pacientu:</label>
+        <select id="visitationRelationship" name="visitationRelationship" class="inputfield" required>
+            <option value="family">Šeima/Globėjas</option>
+            <option value="spouse">Sutuoktinis</option>
+            <option value="spouse">Draugas</option>
+            <option value="spouse">Bendradarbis</option>
+            <option value="other">Kita</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Registruotis aplankymui">
+        <br><br>
+
+</body>
+</html>
