@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2023 at 03:18 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 14, 2023 at 11:53 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `isppoliklinika`
+-- Database: `isp`
 --
 
 -- --------------------------------------------------------
@@ -31,15 +31,21 @@ CREATE TABLE `ataskaita` (
   `Data` date NOT NULL,
   `AtaskaitosId` int(10) NOT NULL,
   `GydytojoKomentarai` text NOT NULL,
-  `fk_Gydytojas-id` int(11) NOT NULL
+  `fk_Pacientas_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `ataskaita`
 --
 
-INSERT INTO `ataskaita` (`Data`, `AtaskaitosId`, `GydytojoKomentarai`, `fk_Gydytojas-id`) VALUES
-('2023-12-03', 1, 'Lorem ipsum, d\'olor sit amet...', 1);
+INSERT INTO `ataskaita` (`Data`, `AtaskaitosId`, `GydytojoKomentarai`, `fk_Pacientas_id`) VALUES
+('2023-12-03', 1, 'Lorem ipsum', 1),
+('2023-12-14', 2, 'Neveikia', 2),
+('2023-12-14', 3, 'VEIKIA PIRMAS', 1),
+('2023-12-14', 4, 'VEIKIA ANTRAS', 2),
+('2023-12-14', 5, 'a', 1),
+('2023-12-14', 6, 'a', 1),
+('2023-12-14', 7, 'Test', 1);
 
 -- --------------------------------------------------------
 
@@ -72,15 +78,17 @@ CREATE TABLE `gydytojas` (
   `id` int(11) NOT NULL,
   `Pareigos` varchar(40) NOT NULL,
   `Kabinetas` varchar(20) NOT NULL,
-  `fk_Naudotojas-EPastas` varchar(30) NOT NULL
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `gydytojas`
 --
 
-INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas-EPastas`) VALUES
-(1, 'Dermatologas', '111', 'Gydytojas@Gydytojas.lt');
+INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas_EPastas`) VALUES
+(1, 'Dermatologas', '111', 'Gydytojas@Gydytojas.lt'),
+(3, 'Chirurgas', 'Nepriskirtas', 'john@cena.com'),
+(4, 'Šeimos Gyd.', 'Nepriskirtas', 'mantas@mantas.com');
 
 -- --------------------------------------------------------
 
@@ -112,15 +120,15 @@ INSERT INTO `inventorius` (`Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle
 CREATE TABLE `konsultacija` (
   `Data` date NOT NULL,
   `Laikas` time NOT NULL,
-  `fk_Pacientas-AsmensKodas` int(11) NOT NULL,
-  `fk_Gydytojas-id` int(11) NOT NULL
+  `fk_Pacientas_AsmensKodas` int(11) NOT NULL,
+  `fk_Gydytojas_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `konsultacija`
 --
 
-INSERT INTO `konsultacija` (`Data`, `Laikas`, `fk_Pacientas-AsmensKodas`, `fk_Gydytojas-id`) VALUES
+INSERT INTO `konsultacija` (`Data`, `Laikas`, `fk_Pacientas_AsmensKodas`, `fk_Gydytojas_id`) VALUES
 ('2023-12-20', '16:00:00', 2, 1);
 
 -- --------------------------------------------------------
@@ -145,6 +153,8 @@ CREATE TABLE `naudotojas` (
 INSERT INTO `naudotojas` (`Vardas`, `Pavarde`, `EPastas`, `TelefonoNr`, `Slaptazodis`, `Role`) VALUES
 ('Administratorius', 'Administratorius', 'Admin@Admin.lt', '+1234567891', 'demo', 'Administratorius'),
 ('Gydytojas', 'Gydytojas', 'Gydytojas@Gydytojas.lt', '+1234567891', 'demo', 'Gydytojas'),
+('John', 'Cena', 'john@cena.com', '+3708612345', 'demo', 'Gydytojas'),
+('Mantas', 'Test', 'mantas@mantas.com', '+3708684624', 'm', 'Gydytojas'),
 ('Pacientas', 'Pacientas', 'Pacientas@Pacientas.lt', '+1234567891', 'demo', 'Pacientas'),
 ('Pacientas2', 'Pacientas2', 'Pacientas2@Pacientas.lt', '+1234567891', 'demo', 'Pacientas'),
 ('Svecias', 'Svecias', 'Svecias@Svecias.lt', '+1234567891', 'demo', 'Svecias');
@@ -164,16 +174,16 @@ CREATE TABLE `pacientas` (
   `Ugis` int(3) NOT NULL,
   `KraujoGr` varchar(4) NOT NULL,
   `Alergijos` tinyint(1) NOT NULL,
-  `fk_Gydytojas-id` int(11) NOT NULL,
-  `fk_Naudotojas-EPastas` varchar(30) NOT NULL
+  `fk_Gydytojas_id` int(11) NOT NULL,
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `pacientas`
 --
 
-INSERT INTO `pacientas` (`Adresas`, `AsmensKodas`, `Darboviete`, `Amzius`, `Svoris`, `Ugis`, `KraujoGr`, `Alergijos`, `fk_Gydytojas-id`, `fk_Naudotojas-EPastas`) VALUES
-('Miesto g. 1, Miestas', 1, 'Darbo g. 1, Darbomiestis', 22, 80, 180, 'AB+', 0, 1, 'Pacientas@Pacientas.lt'),
+INSERT INTO `pacientas` (`Adresas`, `AsmensKodas`, `Darboviete`, `Amzius`, `Svoris`, `Ugis`, `KraujoGr`, `Alergijos`, `fk_Gydytojas_id`, `fk_Naudotojas_EPastas`) VALUES
+('Miesto g. 1, Miestas', 1, 'Darbo g. 1, Darbomiestis', 22, 80, 180, 'AB+', 0, 4, 'Pacientas@Pacientas.lt'),
 ('Kaimo g. 2, Kaimas', 2, 'Darbo g. 1, Darbomiestis', 36, 110, 174, 'O+', 0, 1, 'Pacientas2@Pacientas.lt');
 
 -- --------------------------------------------------------
@@ -244,15 +254,18 @@ CREATE TABLE `vaistas` (
   `GaliojimoData` date NOT NULL,
   `Receptinis` tinyint(1) NOT NULL,
   `Pavidalas` enum('Tabletes','Kapsules','Skystis','Milteliai') NOT NULL,
-  `fk_Pacientas-AsmensKodas` int(11) NOT NULL
+  `fk_Pacientas_AsmensKodas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `vaistas`
 --
 
-INSERT INTO `vaistas` (`Pavadinimas`, `GaliojimoData`, `Receptinis`, `Pavidalas`, `fk_Pacientas-AsmensKodas`) VALUES
-('Lorem Ipsum', '2025-12-10', 1, 'Kapsules', 1);
+INSERT INTO `vaistas` (`Pavadinimas`, `GaliojimoData`, `Receptinis`, `Pavidalas`, `fk_Pacientas_AsmensKodas`) VALUES
+('Lorem Ipsum', '2025-12-10', 1, 'Kapsules', 1),
+('Gelamirtol', '2024-12-14', 2, '', 1),
+('Kazkas', '2024-12-14', 3, '', 2),
+('Test', '2024-12-14', 4, '', 1);
 
 --
 -- Indexes for dumped tables
@@ -263,7 +276,7 @@ INSERT INTO `vaistas` (`Pavadinimas`, `GaliojimoData`, `Receptinis`, `Pavidalas`
 --
 ALTER TABLE `ataskaita`
   ADD PRIMARY KEY (`AtaskaitosId`),
-  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas-id`);
+  ADD KEY `fk_Pacientas_id` (`fk_Pacientas_id`);
 
 --
 -- Indexes for table `atsiliepimas`
@@ -277,14 +290,14 @@ ALTER TABLE `atsiliepimas`
 --
 ALTER TABLE `gydytojas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas-EPastas`);
+  ADD KEY `fk_Naudotojas_EPastas` (`fk_Naudotojas_EPastas`) USING BTREE;
 
 --
 -- Indexes for table `konsultacija`
 --
 ALTER TABLE `konsultacija`
-  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas-id`),
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas-AsmensKodas`);
+  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas_id`),
+  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
 
 --
 -- Indexes for table `naudotojas`
@@ -297,15 +310,15 @@ ALTER TABLE `naudotojas`
 --
 ALTER TABLE `pacientas`
   ADD PRIMARY KEY (`AsmensKodas`),
-  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas-EPastas`),
-  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas-id`);
+  ADD KEY `fk_Naudotojas_EPastas` (`fk_Naudotojas_EPastas`) USING BTREE,
+  ADD KEY `fk_Gydytojas_id` (`fk_Gydytojas_id`) USING BTREE;
 
 --
 -- Indexes for table `siuntimas`
 --
 ALTER TABLE `siuntimas`
-  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas-id`),
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas-AsmensKodas`);
+  ADD KEY `fk_Pacientas_AsmensKodas` (`fk_Pacientas-AsmensKodas`) USING BTREE,
+  ADD KEY `fk_Gydytojas_id` (`fk_Gydytojas-id`) USING BTREE;
 
 --
 -- Indexes for table `tyrimas`
@@ -325,7 +338,8 @@ ALTER TABLE `uzsakymas`
 -- Indexes for table `vaistas`
 --
 ALTER TABLE `vaistas`
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas-AsmensKodas`);
+  ADD PRIMARY KEY (`Receptinis`),
+  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -335,7 +349,7 @@ ALTER TABLE `vaistas`
 -- AUTO_INCREMENT for table `ataskaita`
 --
 ALTER TABLE `ataskaita`
-  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `atsiliepimas`
@@ -347,7 +361,13 @@ ALTER TABLE `atsiliepimas`
 -- AUTO_INCREMENT for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `vaistas`
+--
+ALTER TABLE `vaistas`
+  MODIFY `Receptinis` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -357,7 +377,7 @@ ALTER TABLE `gydytojas`
 -- Constraints for table `ataskaita`
 --
 ALTER TABLE `ataskaita`
-  ADD CONSTRAINT `ataskaita_ibfk_1` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`);
+  ADD CONSTRAINT `fk_Pacientas` FOREIGN KEY (`fk_Pacientas_id`) REFERENCES `pacientas` (`AsmensKodas`);
 
 --
 -- Constraints for table `atsiliepimas`
@@ -369,21 +389,21 @@ ALTER TABLE `atsiliepimas`
 -- Constraints for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
-  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas-EPastas`) REFERENCES `naudotojas` (`EPastas`);
+  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `konsultacija`
 --
 ALTER TABLE `konsultacija`
-  ADD CONSTRAINT `konsultacija_ibfk_1` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`),
-  ADD CONSTRAINT `konsultacija_ibfk_2` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+  ADD CONSTRAINT `konsultacija_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
+  ADD CONSTRAINT `konsultacija_ibfk_2` FOREIGN KEY (`fk_Pacientas_AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
 
 --
 -- Constraints for table `pacientas`
 --
 ALTER TABLE `pacientas`
-  ADD CONSTRAINT `pacientas_ibfk_1` FOREIGN KEY (`fk_Naudotojas-EPastas`) REFERENCES `naudotojas` (`EPastas`),
-  ADD CONSTRAINT `pacientas_ibfk_2` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`);
+  ADD CONSTRAINT `pacientas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`),
+  ADD CONSTRAINT `pacientas_ibfk_2` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`);
 
 --
 -- Constraints for table `siuntimas`
@@ -409,7 +429,7 @@ ALTER TABLE `uzsakymas`
 -- Constraints for table `vaistas`
 --
 ALTER TABLE `vaistas`
-  ADD CONSTRAINT `vaistas_ibfk_1` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+  ADD CONSTRAINT `vaistas_ibfk_1` FOREIGN KEY (`fk_Pacientas_AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
