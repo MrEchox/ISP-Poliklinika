@@ -1,71 +1,93 @@
+<?php
+require '../config.php'; // Include the database configuration file
+
+// Check if the session variable for user ID is set and not empty
+if (!empty($_SESSION["id"])) {
+    $sessionID = $_SESSION["id"];
+
+    // Fetch user's AsmensKodas from pacientas table using the session ID
+    $pacientasQuery = "SELECT p.AsmensKodas FROM pacientas p INNER JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas WHERE n.EPastas = '$sessionID'";
+    $pacientasResult = $conn->query($pacientasQuery);
+
+    if ($pacientasResult && $pacientasResult->num_rows > 0) {
+        $pacientasRow = $pacientasResult->fetch_assoc();
+        $asmensKodas = $pacientasRow["AsmensKodas"];
+
+        // Fetch data from 'siuntimas' table using the AsmensKodas
+        $sql = "SELECT * FROM siuntimas WHERE `fk_Pacientas-AsmensKodas` = $asmensKodas";
+        $siuntimasResult = $conn->query($sql);
+    } else {
+        echo "Patient not found.";
+        exit();
+    }
+}
+else {
+    // Redirect to login page if the session ID is not set
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Informacija</title>
+    <meta charset="UTF-8">
+    <title>Registravimasis</title>
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="stylesheet" href="pacientas.css">
 </head>
 <body>
 <!-- NAVBAR -->
-<!-- (Your existing navbar code) -->
+<div class="navbar">
+    <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
+    <a class="right" href="pacientas.html">Grįžti</a>
+</div>
 
-<h2>Kiti gydytojai</h2>
-<form class="tableForm">
-    <!-- (Your existing form and search elements) -->
-    <table>
-        <tr>
-            <th>Gydytojas</th>
-            <th>Paskirtas laikas</th>
-            <th>Registracijos Data</th>
-            <th>Veiksmas</th>
-        </tr>
+<!-- Display siuntimas data for the logged-in user -->
+<?php
+if ($siuntimasResult && $siuntimasResult->num_rows > 0) {
+    echo "<table>"; // Start the table
+    echo "<tr>"; // Start a row for table headers
+    // Define your table headers here
+    echo "<th>Data</th>";
+    echo "<th>Klinikine Diagnoze</th>";
+    echo "<th>Skyrius</th>";
+    echo "<th>Pagrindine Diagnoze</th>";
+    echo "<th>Actions</th>"; // Header for actions (like Change or Remove buttons)
+    echo "</tr>"; // End the row for table headers
 
-        <?php
-        // Database connection setup
-        $servername = "localhost"; // Your server name
-        $username = "root"; // Your database username
-        $password = ""; // Your database password
-        $dbname = "calendardb"; // Your database name
+    while ($siuntimasRow = $siuntimasResult->fetch_assoc()) {
+        echo "<tr>"; // Start a new row for each record
+        echo "<td>" . htmlspecialchars($siuntimasRow["Data"]) . "</td>";
+        echo "<td>" . htmlspecialchars($siuntimasRow["KlinikineDiagnoze"]) . "</td>";
+        echo "<td>" . htmlspecialchars($siuntimasRow["Skyrius"]) . "</td>";
+        echo "<td>" . htmlspecialchars($siuntimasRow["PagrindineDiagnoze"]) . "</td>";
+        echo "<td class='action-cell'>"; // Actions column
+        // Change link styled as button
 
+            // Change button without link
+            echo "<button type='button' class='btn change-btn'>Keisti</button> ";
+            // Remove button without link
+            echo "<button type='button' class='btn remove-btn'>Istrinti</button>";
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
+    }
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+    echo "</table>"; // End the table
+} else {
+    echo "No siuntimas records found.";
+}
+?>
+<!-- Additional HTML content and links -->
+<a href="paciento_profilils.php">
+    <input type="button" value="Grysti" class="buttonAD">
+</a>
+<a href="paciento_profilils.html">
+    <input type="button" value="Keisti vaistus" class="buttonAD">
+</a>
 
-        // Fetching data for a specific patient (PatientID = 1)
-        $sql = "SELECT * FROM Appointments WHERE PatientID = 1";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>Doctor's Name</td>"; // Replace with actual doctor's name if available
-                echo "<td>" . $row["AppointmentDate"] . "</td>";
-                echo "<td>2023-10-01</td>"; // Replace with actual registration date if available
-                echo "<td>
-                        <a href='atsaukimas.php?appointmentID=" . $row["AppointmentID"] . "'>
-                            <input type='button' value='Atšaukimas' class='buttonAD'>
-                        </a>
-                        <a href='Redagavimas.html'>
-                            <input type='button' value='Redagavimas' class='buttonAD'>
-                        </a>
-                      </td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='4'>No appointments found.</td></tr>";
-        }
-
-        $conn->close();
-        ?>
-
-    </table>
-</form>
-
-<!-- (Your existing footer code) -->
+<footer>
+    <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
+</footer>
+<br>
 </body>
 </html>
