@@ -1,52 +1,138 @@
+<?php
+    require '../config.php';
+    if(!empty($_SESSION["id"])){
+        $sessionID = $_SESSION["id"];
+        $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+        $row = mysqli_fetch_assoc($result);
+    }
+    else{
+        header("Location: login.php");
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< Updated upstream
     <title>Pradžia</title>
+=======
+    <meta charset="UTF-8">
+    <title>Siuntimas</title>
+>>>>>>> Stashed changes
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="stylesheet" href="gydytojas.css">
 </head>
 <body>
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-        <a href="../home.html">Pradžia</a>
-        <a href="../info.html">Informacija</a>
-        <a href="gydytojas.html">Pagrindinė informacija</a>
-        <a href="vaistas.html">Išrašyti vaistą</a>
-        <a href="siuntimas.html">Siuntimas</a>
-        <a class="right" href="profile.html">Asmeninė informacija</a>
-    </div>
+<?php
+        echo '<div class="navbar">';
+        echo '<a href="../index.php">Pradžia</a>';
+        if($row["Role"] == "Gydytojas"){
+            echo '<a href="gydytojas.php">Pagrindinė informacija</a>';
+            echo '<a href="vaistas.php">Išrašyti vaistą</a>';
+            echo '<a href="siuntimas.php">Siuntimas</a>';
+        }
+        else{
+            header("Location: ../index.php");
+        }
+        echo'<a class="right" href="../logout.php">Atsijungti</a>';
+        echo'<a class="right" href="profile.php">Asmeninė informacija</a>';
+        echo '</div>';
+    ?>
+ 
 
     <div class="siuntimas">
         <h2>Kurti naują siuntimą</h2>
-        <form action="kurti_ataskaia.php" method="POST" class="formaSiuntimo"> <!-- Change action into smt that actually does smt-->
+        <form action="" method="POST" class="formaSiuntimo">
             <label for="text">Pacientas:</label>
-            <select class="inputfield">
+            <select name="selectedPatient" class="inputfield">
                 <option value="default" >Pasirinkite pacientą</option>
-                <option value="1" >Jonas Jonauskas</option>
-                <option value="2">Petras Petrauskas</option>
+                <?php 
+                    $currentDocId = mysqli_query($conn, "SELECT id FROM gydytojas where fk_Naudotojas_EPastas = '$sessionID'");
+
+                    if ($currentDocId) {
+                        while ($docRow = mysqli_fetch_assoc($currentDocId)) {
+                            $query = "SELECT AsmensKodas, n.Vardas AS Vardas, n.Pavarde AS Pavarde
+                                FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
+                                LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
+                                WHERE g.id = '" . $docRow["id"] . "'";
+                            $result = mysqli_query($conn, $query);
+
+                            if ($result) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $fullName = $row['Vardas'] . ' ' . $row['Pavarde'];
+                                    echo "<option value=\"{$row['AsmensKodas']}\">{$fullName}</option>";
+                                }
+                            } else {
+                                echo "Error executing query: " . mysqli_error($conn);
+                            }
+                        }
+                    }
+                ?>
             </select>
         
-            <label for="text">Aprašymas:</label>
-            <select class="inputfield">
+            <label for="text">Daktaras:</label>
+            <select name="selectedDoctor" class="inputfield">
                 <option value="default" >Pasirinkite daktarą</option>
-                <option value="1" >Chirurgas</option>
-                <option value="2">Okulistas</option>
-                <option value="3">Kardiologas</option>
-                <option value="4">Ortopedas</option>
+                <?php 
+                    $query = "SELECT g.id as GydytojoID, n.Vardas AS Vardas, n.Pavarde AS Pavarde, g.Pareigos AS Pareigos
+                        FROM gydytojas g JOIN naudotojas n ON g.fk_Naudotojas_EPastas = n.EPastas";
+                    $result = mysqli_query($conn, $query);
+
+                    if ($result) {
+                        while ($row2 = mysqli_fetch_assoc($result)) {
+                            $fullName = $row2['Pareigos'] . ' ' . $row2['Vardas'] . ' ' . $row2['Pavarde'];
+                            echo "<option value=\"{$row2['GydytojoID']}\">{$fullName}</option>";
+                        }
+                    } else {
+                        echo "Error executing query: " . mysqli_error($conn);
+                    }
+                ?>
             </select>
-    
-            <input type="submit" value="Įrašyti">
-            <br><br>
+            <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $selectedPatient = $_POST["selectedPatient"];
+                    $selectedDoctor = $_POST["selectedDoctor"];
+                    
+                    $patientID = (int)explode(": ", $selectedPatient)[0];
+                    $doctorID = (int)explode(": ", $selectedDoctor)[0];
+                    
+                    $updateQuery = "UPDATE pacientas SET fk_Gydytojas_id = $doctorID WHERE AsmensKodas = $patientID";
+                    $updateResult = mysqli_query($conn, $updateQuery);
+                    
+                    
+                    $docRow = mysqli_query($conn, "SELECT id, Pareigos FROM gydytojas where fk_Naudotojas_EPastas = '$sessionID'");
+                    if ($docRow) {
+                        while ($currentDocId = mysqli_fetch_assoc($docRow)) {
+                            $ataskaitos = mysqli_query($conn, "SELECT GydytojoKomentarai FROM ataskaita where fk_Pacientas_id = $patientID order by AtaskaitosId desc LIMIT 1");
+                            if($ataskaitos)
+                            {
+                                while($ataskaita = mysqli_fetch_assoc($ataskaitos))
+                                {
+                                    $a = $ataskaita["GydytojoKomentarai"];
+                                }
+                            }
+                            $query = "SELECT AsmensKodas, n.Vardas AS Vardas, n.Pavarde AS Pavarde
+                                FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
+                                LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
+                                WHERE g.id = '" . $currentDocId["id"] . "'";
+                            $result = mysqli_query($conn, $query);
+                            $saveSiuntimas = mysqli_query($conn, "INSERT INTO siuntimas (Data, KlinikineDiagnoze, Skyrius, PagrindineDiagnoze, fk_Gydytojas_id, fk_Pacientas_AsmensKodas) 
+                                    VALUES (Now(), 'Nenustatyta', '" . $currentDocId["Pareigos"] . "', '$a', '" . $currentDocId["id"] . "', '$patientID')");
+                            
+                            if ($updateResult && $saveSiuntimas) {
+                                echo '<script>alert("Siuntimas sėkmingai užregistruotas.");</script>';
+                            } else {
+                                echo "Nepavyko pakeisti paciento gydytojo. Neužpildyta ataskaita." . mysqli_error($conn);
+                            }
+                        }
+                    }
+                }
+            ?>
+            <button type="submit">Keisti</button>
         </form>
     </div>
-    
 
     <footer>
         <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
     </footer>
-    <br>
-    <!-- ---- -->
-
 </body>
 </html>

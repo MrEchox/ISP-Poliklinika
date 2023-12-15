@@ -9,7 +9,7 @@
 <!-- NAVBAR -->
 <div class="navbar">
   <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-  <a class="right" href="pacientas.html">Grįžti</a>
+  <a class="right" href="../Gydytojas/gydytojas.php">Grįžti</a>
 </div>
 
 <div class="information">
@@ -60,7 +60,7 @@
 
 </div>
 <a href="paciento_profilils.html">
-  <input type="button" value="Redagavimas" class="buttonAD">
+  <input type="button" value="Keisti gydytoja" class="buttonAD">
 </a>
 <a href="paciento_profilils.html">
   <input type="button" value="Keisti vaistus" class="buttonAD">
