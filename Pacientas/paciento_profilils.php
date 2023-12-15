@@ -9,8 +9,13 @@
 <body>
 <!-- NAVBAR -->
 <div class="navbar">
+<<<<<<< Updated upstream
   <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
   <a class="right" href="../Gydytojas/gydytojas.php">Grįžti</a>
+=======
+    <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
+    <a class="right" onclick="goBack()">Grįžti</a>
+>>>>>>> Stashed changes
 </div>
 
 <div class="information">
@@ -72,8 +77,16 @@
 <footer>
   <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
 </footer>
+<<<<<<< Updated upstream
 <br>
 <!-- ---- -->
 
+=======
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+>>>>>>> Stashed changes
 </body>
 </html>
