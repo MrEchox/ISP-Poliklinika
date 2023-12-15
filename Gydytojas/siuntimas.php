@@ -12,12 +12,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< Updated upstream
-    <title>Pradžia</title>
-=======
     <meta charset="UTF-8">
     <title>Siuntimas</title>
->>>>>>> Stashed changes
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="stylesheet" href="gydytojas.css">
 </head>
