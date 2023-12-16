@@ -35,7 +35,7 @@ if (!empty($_SESSION["id"])) {
 <!-- NAVBAR -->
 <div class="navbar">
     <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-    <a class="right" href="pacientas.html">Grįžti</a>
+    <a class="right" href="../index.php">Grįžti</a>
 </div>
 
 <!-- Display pacientas data for the logged-in user -->
@@ -63,12 +63,16 @@ if (!empty($pacientasData)) {
 <a href="pacientas.php">
     <input type="button" value="Siuntimai" class="buttonAD">
 </a>
-<a href="paciento_profilils.html">
-    <input type="button" value="Keisti vaistus" class="buttonAD">
+<a href="vaistai.php">
+    <input type="button" value="Vaistai" class="buttonAD">
 </a>
-<a href="../Pacientas/calendar.html">
-    <input type="button" value="Registracijos apsilankymu istorija" class="buttonAD">
+<a href="tyrimas.php">
+    <input type="button" value="Tyrimai" class="buttonAD">
 </a>
+<a href="konsultacijos.php">
+    <input type="button" value="Konsultacijos" class="buttonAD">
+</a>
+
 
 <footer>
     <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
