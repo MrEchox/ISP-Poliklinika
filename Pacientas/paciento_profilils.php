@@ -85,9 +85,6 @@ if($roleArray){
     if($roleArray){
         while($role = mysqli_fetch_assoc($roleArray)){
             if($role["Role"] == "Gydytojas"){
-                // echo '<a href="pacientas.php">';
-                //     echo '<input type="button" value="Siuntimai" class="buttonAD">';
-                // echo '</a>';
                 echo '<a href="editVaistas.php?id=' . $email . '">';
                     echo '<input type="button" value="Keisti vaistus" class="buttonAD">';
                 echo '</a>';
