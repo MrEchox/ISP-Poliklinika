@@ -32,6 +32,9 @@ else{
             echo '<a href="Admin/Administratorius.php">Keisti roles</a>';
 
         }
+        else if($row["Role"] == "Pacientas"){
+            echo '<a href="Pacientas/paciento_profilils.php">Paciento profilis</a>'; //gali ir cia prisidet jei nori, make it make sense krc
+        }
         echo'<a class="right" href="logout.php">Atsijungti</a>';
         echo '</div>';
     ?>
