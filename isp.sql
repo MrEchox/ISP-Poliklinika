@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 11:53 PM
+-- Generation Time: Dec 16, 2023 at 05:44 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -97,6 +97,7 @@ INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas_EPastas`)
 --
 
 CREATE TABLE `inventorius` (
+  `id` int(11) NOT NULL,
   `Pavadinimas` varchar(40) NOT NULL,
   `Kiekis` int(10) NOT NULL,
   `PaskutinisPildymas` date NOT NULL,
@@ -107,9 +108,13 @@ CREATE TABLE `inventorius` (
 -- Dumping data for table `inventorius`
 --
 
-INSERT INTO `inventorius` (`Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle`) VALUES
-('Švirkštai', 12, '2023-11-08', 'Gera'),
-('Pleistras', 500, '2023-10-10', 'Patenkinama');
+INSERT INTO `inventorius` (`id`, `Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle`) VALUES
+(1, 'Švirkštai', 12, '2023-11-08', 'Gera'),
+(2, 'Pleistras', 550, '2023-12-16', 'Patenkinama'),
+(3, 'Pleistras', 110, '2023-12-16', 'Gera'),
+(7, 'Pleistras', 200, '2023-12-16', 'Puiki'),
+(9, 'Plaktukas', 1, '2023-12-16', 'Patenkinama'),
+(10, 'Kirvis', 15, '2023-12-16', 'Gera');
 
 -- --------------------------------------------------------
 
@@ -118,6 +123,7 @@ INSERT INTO `inventorius` (`Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle
 --
 
 CREATE TABLE `konsultacija` (
+  `id` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Laikas` time NOT NULL,
   `fk_Pacientas_AsmensKodas` int(11) NOT NULL,
@@ -128,8 +134,8 @@ CREATE TABLE `konsultacija` (
 -- Dumping data for table `konsultacija`
 --
 
-INSERT INTO `konsultacija` (`Data`, `Laikas`, `fk_Pacientas_AsmensKodas`, `fk_Gydytojas_id`) VALUES
-('2023-12-20', '16:00:00', 2, 1);
+INSERT INTO `konsultacija` (`id`, `Data`, `Laikas`, `fk_Pacientas_AsmensKodas`, `fk_Gydytojas_id`) VALUES
+(2, '2023-12-20', '17:16:22', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -238,10 +244,23 @@ INSERT INTO `tyrimas` (`Pavadinimas`, `Analize`, `Svarba`, `Kaina`, `Busena`, `f
 --
 
 CREATE TABLE `uzsakymas` (
+  `id` int(11) NOT NULL,
   `Pavadinimas` varchar(40) NOT NULL,
   `Kiekis` int(10) NOT NULL,
-  `fk_Naudotojas-EPastas` varchar(30) NOT NULL
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL,
+  `Papildymas` date NOT NULL,
+  `Bukle` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `uzsakymas`
+--
+
+INSERT INTO `uzsakymas` (`id`, `Pavadinimas`, `Kiekis`, `fk_Naudotojas_EPastas`, `Papildymas`, `Bukle`) VALUES
+(1, 'Pleistras', 50, 'Admin@Admin.lt', '2023-12-16', 'Puiki'),
+(2, 'Plaktukas', 1, 'Admin@Admin.lt', '2023-12-16', 'Patenkinama'),
+(3, 'Kirvis', 5, 'Admin@Admin.lt', '2023-12-16', 'Gera'),
+(4, 'Kirvis', 10, 'Admin@Admin.lt', '2023-12-16', 'Gera');
 
 -- --------------------------------------------------------
 
@@ -293,9 +312,16 @@ ALTER TABLE `gydytojas`
   ADD KEY `fk_Naudotojas_EPastas` (`fk_Naudotojas_EPastas`) USING BTREE;
 
 --
+-- Indexes for table `inventorius`
+--
+ALTER TABLE `inventorius`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `konsultacija`
 --
 ALTER TABLE `konsultacija`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas_id`),
   ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
 
@@ -332,7 +358,8 @@ ALTER TABLE `tyrimas`
 -- Indexes for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
-  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas-EPastas`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas_EPastas`);
 
 --
 -- Indexes for table `vaistas`
@@ -361,6 +388,24 @@ ALTER TABLE `atsiliepimas`
 -- AUTO_INCREMENT for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `inventorius`
+--
+ALTER TABLE `inventorius`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `konsultacija`
+--
+ALTER TABLE `konsultacija`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `uzsakymas`
+--
+ALTER TABLE `uzsakymas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -423,7 +468,7 @@ ALTER TABLE `tyrimas`
 -- Constraints for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
-  ADD CONSTRAINT `uzsakymas_ibfk_1` FOREIGN KEY (`fk_Naudotojas-EPastas`) REFERENCES `naudotojas` (`EPastas`);
+  ADD CONSTRAINT `uzsakymas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `vaistas`
