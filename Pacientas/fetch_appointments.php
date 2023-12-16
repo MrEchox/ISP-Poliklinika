@@ -1,44 +1,40 @@
 <?php
-$servername = "localhost"; // Your server name
-$username = "root"; // Your database username
-$password = ""; // Your database password
-$dbname = "isp"; // Your database name
+    require '../config.php';
+    if(!empty($_SESSION["id"])){
+        $sessionID = $_SESSION["id"];
+        $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+        $row = mysqli_fetch_assoc($result);
+    }
+    else{
+        header("Location: ../login.php");
+    }
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// SQL to fetch the fk_Naudotojas_EPastas field from pacientas and Data from siuntimas
-$sql = "SELECT p.fk_Naudotojas_EPastas, s.Data 
-        FROM pacientas p 
-        INNER JOIN siuntimas s ON p.AsmensKodas = s.`fk_Pacientas-AsmensKodas` 
-        WHERE p.AsmensKodas = 1";
+    if (isset($_GET["id"])) {
+        $patientId = $_GET["id"];
+        $sql = "SELECT DISTINCT Data 
+                FROM konsultacija 
+                WHERE fk_Pacientas_AsmensKodas = '$patientId'";
+    }
 
 $result = $conn->query($sql);
-
-$emailAndDates = [];
+if (!$result) {
+    // Handle the database query error
+    echo "Error executing the query: " . $conn->error;
+    exit;  // Stop execution or redirect to an error page
+}
+$appointmentsDates = [];
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $emailAndDates[] = [
-            'email' => $row['fk_Naudotojas_EPastas'],
-            'date' => $row['Data']
-        ];
+    while ($row = $result->fetch_assoc()) {
+        $appointmentsDates[] = $row['Data'];
     }
 } else {
-    echo "0 results";
+    $appointmentsDates[] = [];
 }
 
 // Set header to output JSON
 header('Content-Type: application/json');
-// Echo the email addresses and dates in JSON format
-echo json_encode($emailAndDates);
+// Echo the dates with appointments in JSON format
+echo json_encode($appointmentsDates);
 
 $conn->close();
 ?>
-
-
-

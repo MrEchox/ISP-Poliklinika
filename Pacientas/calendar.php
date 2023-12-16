@@ -1,3 +1,14 @@
+<?php
+    require '../config.php';
+    if(!empty($_SESSION["id"])){
+        $sessionID = $_SESSION["id"];
+        $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+        $row = mysqli_fetch_assoc($result);
+    }
+    else{
+        header("Location: ../login.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,6 +118,12 @@
             font-size: 0.8em;
         }
 
+        .highlighted-day {
+            background-color: yellow;
+            color: black; 
+        }
+
+
         /* Responsive design */
         @media (max-width: 768px) {
             .calendar-controls {
@@ -150,7 +167,8 @@
 <body>
 
 <div class="header">
-    <h1>MedicalUI - Appointments AŠ IGNAAAAAASSS</h1>
+    <h1>MedicalUI - Vizitai</h1>
+    <a class="btn" onclick="goBack()" style="cursor: pointer;">Grįžti</a>
 </div>
 
 <div class="calendar-header">
@@ -192,58 +210,53 @@
         });
         monthSelect.value = currentMonth;
     }
-    function fetchAppointments() {
-        return fetch('fetch_appointments.php')
+
+    function fetchAppointmentsDates(id) {
+        return fetch('fetch_appointments.php?id=' + id)
             .then(response => response.json())
             .catch(error => console.error('Error fetching appointments:', error));
     }
-    function generateCalendar(month, year) {
-        fetchAppointments().then(appointments => {
-            const firstDay = new Date(year, month).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            calendar.innerHTML = ''; // Clear previous calendar
 
-            // Create day headers (Sun, Mon, Tue, etc.)
-            for (let i = 0; i < 7; i++) {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'day-header';
-                dayHeader.textContent = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i];
-                calendar.appendChild(dayHeader);
+function generateCalendar(month, year) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    console.log(id);
+    fetchAppointmentsDates(id).then(appointmentsDates => {
+        const firstDay = new Date(year, month).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        calendar.innerHTML = ''; // Clear previous calendar
+
+        // Create day headers (Sun, Mon, Tue, etc.)
+        for (let i = 0; i < 7; i++) {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'day-header';
+            dayHeader.textContent = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i];
+            calendar.appendChild(dayHeader);
+        }
+
+        // Create empty slots before the first day of the month
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'day empty';
+            calendar.appendChild(emptyCell);
+        }
+
+        // Create day cells
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayCell = document.createElement('div');
+            dayCell.className = 'day';
+            dayCell.textContent = i; // Add the day number
+            dayCell.setAttribute('data-date', i); // Add the date as a data attribute
+
+            // Check if the date has an appointment and apply the highlighting
+            if (appointmentsDates.includes(`${year}-${month + 1}-${i}`)) {
+                dayCell.classList.add('highlighted-day');
             }
 
-            // Create empty slots before first day of month
-            for (let i = 0; i < firstDay; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'day empty';
-                calendar.appendChild(emptyCell);
-            }
-
-            // Create day cells
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayCell = document.createElement('div');
-                dayCell.className = 'day';
-                dayCell.textContent = i; // Add the day number
-                dayCell.setAttribute('data-date', i); // Add the date as a data attribute
-                calendar.appendChild(dayCell);
-            }
-
-            // After generating the calendar grid:
-            // Check each appointment and place it on the calendar if the date matches
-            appointments.forEach(appointment => {
-                const appointmentDate = new Date(appointment.selected_datetime);
-                if (appointmentDate.getMonth() === month && appointmentDate.getFullYear() === year) {
-                    const dayCell = calendar.querySelector(`.day[data-date="${appointmentDate.getDate()}"]`);
-                    if(dayCell) { // Check if the day cell exists
-                        const appointmentDiv = document.createElement('div');
-                        appointmentDiv.className = 'appointment';
-                        appointmentDiv.textContent = appointment.name;
-                        dayCell.appendChild(appointmentDiv);
-                    }
-                }
-            });
-        });
-    }
-
+            calendar.appendChild(dayCell);
+        }
+    });
+}
     function updateCalendarControls(month, year) {
         monthSelect.value = month;
         yearSelect.value = year;
@@ -285,6 +298,10 @@
     populateYearSelect();
     populateMonthSelect();
     generateCalendar(currentMonth, currentYear);
+
+    function goBack() {
+        window.history.back();
+    }
 </script>
 
 </body>

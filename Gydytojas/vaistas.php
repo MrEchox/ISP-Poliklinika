@@ -69,10 +69,8 @@
                 $selectedPatient = $_POST["selectedPatient"];
                 $vaistoPavadinimas = $_POST["vaisto_pavadinimas"];
             
-                // Assuming you have a function to calculate one year from today
                 $galiojimoData = date('Y-m-d', strtotime('+1 year'));
             
-                // Fetch the AsmensKodas of the selected patient
                 $query = "SELECT p.AsmensKodas 
                         FROM pacientas p 
                         JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas 
@@ -85,8 +83,8 @@
             
                     // Insert into vaistas table
                     $insertVaistasQuery = "INSERT INTO vaistas 
-                                        (Pavadinimas, GaliojimoData, Pavidalas, fk_Pacientas_AsmensKodas)
-                                        VALUES ('$vaistoPavadinimas', '$galiojimoData', '', ' $pacientoAsmensKodas')";
+                                        (Pavadinimas, GaliojimoData, Receptinis, Pavidalas, fk_Pacientas_AsmensKodas)
+                                        VALUES ('$vaistoPavadinimas', '$galiojimoData', 'Ne', '', '$pacientoAsmensKodas')";
                     $insertVaistasResult = mysqli_query($conn, $insertVaistasQuery);
             
                     if ($insertVaistasResult) {
