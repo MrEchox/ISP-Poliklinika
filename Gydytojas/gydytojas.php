@@ -6,7 +6,7 @@
         $row = mysqli_fetch_assoc($result);
     }
     else{
-        header("Location: login.php");
+        header("Location: ../login.php");
     }
 ?>
 <!DOCTYPE html>
@@ -41,7 +41,7 @@
                 $currentDocId = mysqli_query($conn, "SELECT id FROM gydytojas where fk_Naudotojas_EPastas = '$sessionID'");
                 if ($currentDocId) {
                     while ($row = mysqli_fetch_assoc($currentDocId)) {
-                        $query = "SELECT n.Vardas AS Vardas, n.Pavarde AS Pavarde
+                        $query = "SELECT n.Vardas AS Vardas, n.Pavarde AS Pavarde, n.EPastas AS email
                                 FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
                                 LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
                                 WHERE g.id = '" . $row["id"] . "'";
@@ -51,7 +51,7 @@
                         if ($numRows > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo '<div class="pacientas">';
-                                    echo '<a href="../Pacientas/paciento_profilils.php">';
+                                    echo '<a href="../Pacientas/paciento_profilils.php?email=' . $row['email'] . '">';
                                     echo $row['Vardas'] . ' ' . $row['Pavarde'] . "<br>";
                                     echo '</a>';
                                 echo '</div>';
@@ -71,7 +71,9 @@
                     <option value="default" >Pasirinkite pacientą</option>
                     <?php 
                         $query = "SELECT n.Vardas AS Vardas, n.Pavarde AS Pavarde
-                            FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas";
+                            FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
+                            LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
+                            WHERE g.id = '" . $row["id"] . "'";
                         $result = mysqli_query($conn, $query);
 
                         if ($result) {
@@ -107,10 +109,10 @@
                             if ($insertReportResult) {
                                 echo '<script>alert("Ataskaita sėkmingai sukurta");</script>';
                             } else {
-                                echo "Nepavyko sukurti ataskaitos: " . mysqli_error($conn);
+                                echo '<script>alert("Nepavyko sukurti ataskaitos:");</script>';
                             }
                         } else {
-                            echo "Nepasirinktas pacientas" . mysqli_error($conn);
+                            echo '<script>alert("Nepasirinktas pacientas");</script>';
                         }
                     }
                 ?>

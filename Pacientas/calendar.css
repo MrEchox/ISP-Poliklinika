@@ -1,28 +1,54 @@
+:root {
+    --primary-color: #454ADE;
+    --secondary-color: #1B1F3B;
+    --accent-color: #B14AED;
+    --light-grey: #f7f7f7;
+    --dark-text: #333333;
+    --light-text: #ffffff;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--light-grey);
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 1em;
+}
+
+.sidebar {
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+    /* more styles */
+}
+
+.main-content {
+    background-color: var(--light-grey);
+    /* more styles */
+}
+
 .calendar {
-    text-align: center;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 1em;
+    padding: 1em;
 }
 
-.month-year h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.day {
+    background-color: var(--light-text);
+    border-radius: 5px;
+    /* more styles */
 }
 
-.calendar table {
-    width: 80%;
-    border-collapse: collapse;
+.appointment {
+    background-color: var(--accent-color);
+    color: var(--dark-text);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    /* more styles */
 }
-
-.calendar th, .calendar td {
-    padding: 20px;
-    border: 1px solid #ccc;
-    text-align: center;
-}
-
-.calendar thead {
-    background-color: #f2f2f2;
-}
-.special-day1 {
-    background-color: green;
-}
-
