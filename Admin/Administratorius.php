@@ -6,11 +6,6 @@ if(!empty($_SESSION["id"])){
     $row = mysqli_fetch_assoc($result);
     $sql = mysqli_query($conn, "SELECT * FROM naudotojas WHERE Role = 'Svecias'");
     $sveciai = mysqli_fetch_all($sql, MYSQLI_ASSOC);
-    // foreach ($sveciai as $svecias){
-    //     foreach ($svecias as $s){
-    //         echo $s;
-    //     }
-    // }
 }
 else{
     header("Location: login.php");
@@ -29,7 +24,7 @@ else{
         if($row["Role"] == "Administratorius"){ //tbh susitvarkyk pagal save kaip nori cia
             echo '<a href="inventorius.php">Inventorius</a>';
             echo '<a href="inventoriusUžsakymas.php">Inventoriaus užsakymas</a>';
-            echo '<a href="registracijuUzklausos.php">Registracijų Užklausos</a>';
+            echo '<a href="užsakymoPeržiūra.php">Užsakymai</a>';
             echo '<a href="apsilankymoUzklausos.php">Apsilankymo Užklausos</a>';
         }
         else{
