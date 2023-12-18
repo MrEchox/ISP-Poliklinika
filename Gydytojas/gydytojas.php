@@ -70,20 +70,26 @@
                 <select name="selectedPatient" class="inputfield"> 
                     <option value="default" >Pasirinkite pacientą</option>
                     <?php 
-                        $query = "SELECT n.Vardas AS Vardas, n.Pavarde AS Pavarde
-                            FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
-                            LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
-                            WHERE g.id = '" . $row["id"] . "'";
-                        $result = mysqli_query($conn, $query);
+                    $currentDocId = mysqli_query($conn, "SELECT id FROM gydytojas where fk_Naudotojas_EPastas = '$sessionID'");
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $fullName = $row['Vardas'] . ' ' . $row['Pavarde'];
-                                echo "<option value=\"{$fullName}\">{$fullName}</option>";
+                    if ($currentDocId) {
+                        while ($docRow = mysqli_fetch_assoc($currentDocId)) {
+                            $query = "SELECT n.Vardas AS Vardas, n.Pavarde AS Pavarde
+                                FROM pacientas p JOIN naudotojas n ON p.fk_Naudotojas_EPastas = n.EPastas
+                                LEFT JOIN gydytojas g ON p.fk_Gydytojas_id = g.id
+                                WHERE g.id = '" . $docRow["id"] . "'";
+                            $result = mysqli_query($conn, $query);
+
+                            if ($result) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $fullName = $row['Vardas'] . ' ' . $row['Pavarde'];
+                                    echo "<option value=\"{$fullName}\">{$fullName}</option>";
+                                }
+                            } else {
+                                echo "Error executing query: " . mysqli_error($conn);
                             }
-                        } else {
-                            echo "Error executing query: " . mysqli_error($conn);
                         }
+                    }
                     ?>
                 </select>
                 <?php

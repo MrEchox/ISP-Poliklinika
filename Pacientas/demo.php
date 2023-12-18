@@ -63,7 +63,7 @@ $specializationResults = $conn->query($specializationsQuery);
 <body>
 <div class="navbar">
     <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-    <a class="right" href="paciento_profilils.php">Grįžti</a>
+    <a class="right" onclick="goBack()">Grįžti</a>
 </div>
 
 <!-- Form for booking a new consultation -->
@@ -72,7 +72,7 @@ $specializationResults = $conn->query($specializationsQuery);
 
     <label for="specialization">Specializacija:</label>
     <select name="specialization" id="specialization" required>
-        <option value="">Pasirinkti specilzaciją</option>
+        <option value="">Pasirinkti specializaciją</option>
         <?php
         if ($specializationResults->num_rows > 0) {
             while($row = $specializationResults->fetch_assoc()) {
@@ -97,6 +97,9 @@ $specializationResults = $conn->query($specializationsQuery);
 </form>
 
 <script>
+    function goBack() {
+        window.history.back();
+    }
     document.getElementById('specialization').addEventListener('change', function() {
         var specialization = this.value;
         var doctorSelect = document.getElementById('gydytojas');
