@@ -25,7 +25,17 @@ else{
             echo '<a href="Gydytojas/gydytojas.php">Į sistemą</a>';
         }
         else if($row["Role"] == "Administratorius"){
-            echo '<a href="Admin/Administratorius.php">Keisti roles</a>'; //gali ir cia prisidet jei nori, make it make sense krc
+            echo '<a href="Admin/inventorius.php">Inventorius</a>';
+            echo '<a href="Admin/inventoriusUžsakymas.php">Inventoriaus užsakymas</a>';
+            echo '<a href="Admin/užsakymoPeržiūra.php">Užsakymai</a>';
+            echo '<a href="Admin/apsilankymoUzklausos.php">Apsilankymo Užklausos</a>';
+            echo '<a href="Admin/Administratorius.php">Keisti roles</a>';
+
+        }
+        else if($row["Role"] == "Pacientas"){
+            echo '<a href="Pacientas/paciento_profilils.php">Paciento profilis</a>';
+            echo '<a href="Pacientas/demo.php">Registracija</a>';
+            echo '<a href="Pacientas/calendar.php">Kalendorius</a>';//gali ir cia prisidet jei nori, make it make sense krc
         }
         else if($row["Role"] == "Svecias"){
             echo '<a href="Svecias/svecias.php">Į sistemą</a>';

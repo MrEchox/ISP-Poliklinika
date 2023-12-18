@@ -1,0 +1,308 @@
+<?php
+    require '../config.php';
+    if(!empty($_SESSION["id"])){
+        $sessionID = $_SESSION["id"];
+        $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+        $row = mysqli_fetch_assoc($result);
+    }
+    else{
+        header("Location: ../login.php");
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Calendar</title>
+    <style>
+        :root {
+            --primary-color: #454ADE;
+            --secondary-color: #1B1F3B;
+            --accent-color: #B14AED;
+            --light-grey: #f7f7f7;
+            --dark-text: #333333;
+            --light-text: #ffffff;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .select-style {
+            padding: 10px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            background-color: var(--light-text);
+            color: var(--dark-text);
+            margin: 0 10px;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light-grey);
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1em;
+            text-align: center;
+        }
+
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .calendar-button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .calendar-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .link-button {
+            text-decoration: none;
+            color: var(--light-text);
+        }
+
+        .calendar-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 10px;
+            padding: 1em;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            background: var(--secondary-color);
+            color: var(--light-text);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .day {
+            background-color: var(--light-text);
+            border-radius: 5px;
+            padding: 10px;
+            height: 100px;
+        }
+
+        .appointment {
+            background-color: var(--accent-color);
+            color: var(--dark-text);
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.8em;
+        }
+
+        .highlighted-day {
+            background-color: yellow;
+            color: black; 
+        }
+
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .calendar-controls {
+                flex-direction: column;
+            }
+
+            .calendar {
+                display: block;
+            }
+
+            .day {
+                margin-bottom: 10px;
+            }
+        }
+
+        .select-style {
+            padding: 10px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            background-color: var(--light-text);
+            color: var(--dark-text);
+            margin: 0 10px;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .select-style {
+            padding: 10px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            background-color: var(--light-text);
+            color: var(--dark-text);
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>MedicalUI - Vizitai</h1>
+    <a class="btn" onclick="goBack()" style="cursor: pointer;">Grįžti</a>
+</div>
+
+<div class="calendar-header">
+    <button id="prevMonth" class="calendar-button">Previous Month</button>
+    <select id="monthSelect" class="select-style"></select>
+    <select id="yearSelect" class="select-style"></select>
+    <button id="nextMonth" class="calendar-button">Next Month</button>
+</div>
+
+<div class="calendar-container">
+    <div class="calendar" id="calendar">
+        <!-- Calendar will be generated by JavaScript -->
+    </div>
+</div>
+
+<a href="https://www.example.com" target="_blank" class="calendar-button link-button">Uzsiregistruoti</a>
+
+<script>
+    const monthSelect = document.getElementById('monthSelect');
+    const yearSelect = document.getElementById('yearSelect');
+    const calendar = document.getElementById('calendar');
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
+
+    function populateYearSelect() {
+        for (let i = currentYear - 50; i <= currentYear + 50; i++) {
+            const option = new Option(i, i);
+            yearSelect.appendChild(option);
+        }
+        yearSelect.value = currentYear;
+    }
+
+    function populateMonthSelect() {
+        monthNames.forEach((name, index) => {
+            const option = new Option(name, index);
+            monthSelect.appendChild(option);
+        });
+        monthSelect.value = currentMonth;
+    }
+
+    function fetchAppointmentsDates(id) {
+        return fetch('fetch_appointments.php?id=' + id)
+            .then(response => response.json())
+            .catch(error => console.error('Error fetching appointments:', error));
+    }
+
+function generateCalendar(month, year) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    console.log(id);
+    fetchAppointmentsDates(id).then(appointmentsDates => {
+        const firstDay = new Date(year, month).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        calendar.innerHTML = ''; // Clear previous calendar
+
+        // Create day headers (Sun, Mon, Tue, etc.)
+        for (let i = 0; i < 7; i++) {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'day-header';
+            dayHeader.textContent = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i];
+            calendar.appendChild(dayHeader);
+        }
+
+        // Create empty slots before the first day of the month
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'day empty';
+            calendar.appendChild(emptyCell);
+        }
+
+        // Create day cells
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayCell = document.createElement('div');
+            dayCell.className = 'day';
+            dayCell.textContent = i; // Add the day number
+            dayCell.setAttribute('data-date', i); // Add the date as a data attribute
+
+            // Check if the date has an appointment and apply the highlighting
+            if (appointmentsDates.includes(`${year}-${month + 1}-${i}`)) {
+                dayCell.classList.add('highlighted-day');
+            }
+
+            calendar.appendChild(dayCell);
+        }
+    });
+}
+    function updateCalendarControls(month, year) {
+        monthSelect.value = month;
+        yearSelect.value = year;
+    }
+
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth--;
+        }
+        updateCalendarControls(currentMonth, currentYear);
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else {
+            currentMonth++;
+        }
+        updateCalendarControls(currentMonth, currentYear);
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    monthSelect.addEventListener('change', (e) => {
+        currentMonth = parseInt(e.target.value);
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    yearSelect.addEventListener('change', (e) => {
+        currentYear = parseInt(e.target.value);
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    // Initial call to populate selects and calendar
+    populateYearSelect();
+    populateMonthSelect();
+    generateCalendar(currentMonth, currentYear);
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>
