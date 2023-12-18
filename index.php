@@ -37,6 +37,9 @@ else{
             echo '<a href="Pacientas/demo.php">Registracija</a>';
             echo '<a href="Pacientas/calendar.php">Kalendorius</a>';//gali ir cia prisidet jei nori, make it make sense krc
         }
+        else if($row["Role"] == "Svecias"){
+            echo '<a href="Svecias/svecias.php">Į sistemą</a>';
+        }
         echo'<a class="right" href="logout.php">Atsijungti</a>';
         echo '</div>';
     ?>
