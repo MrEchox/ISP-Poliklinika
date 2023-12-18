@@ -184,7 +184,7 @@
     </div>
 </div>
 
-<a href="https://www.example.com" target="_blank" class="calendar-button link-button">Uzsiregistruoti</a>
+<!-- <a href="https://www.example.com" target="_blank" class="calendar-button link-button">Uzsiregistruoti</a> -->
 
 <script>
     const monthSelect = document.getElementById('monthSelect');

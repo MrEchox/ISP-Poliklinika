@@ -8,14 +8,7 @@
 <body>
     <!-- NAVBAR -->
     <div class="navbar">
-        <a class="logo"><img src="LOGO.png" alt="Logo" width="44" height="32"></a>
-        <a href="home.html">Pradžia</a>
-        <a href="info.html">Informacija</a>
-        <a href="Admin/Administratorius.html">Admin. posisteme</a>
-        <a href="Gydytojas/gydytojas.html">Gydytojo posisteme</a>
-        <a href="Svecias/svecias.html">Svečio posisteme</a>
-        <a href="Pacientas/pacientas.html">Paciento posisteme</a>
-        <a class="right" href="login.html">Prisijungimas</a>
+        <a class="right" onclick="goBack()">Grįžti</a>
     </div>
     <footer>
         <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
@@ -33,6 +26,10 @@
         <li>Matas Pagalys</li>
         <li>Ignas Matulevičius</li>
     </ul>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

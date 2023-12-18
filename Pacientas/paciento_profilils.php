@@ -113,7 +113,6 @@ if ($roleArray) {
     }
 }
 ?>
-?>
 <footer>
     <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
 </footer>
