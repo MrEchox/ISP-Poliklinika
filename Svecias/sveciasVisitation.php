@@ -8,6 +8,26 @@
     else{
         header("Location: login.php");
     }
+
+    function submitVisitation($conn, $sessionID) {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $patientName = $_POST["patientName"];
+            $date = $_POST["date"];
+            $relationship = $_POST["relationship"];
+
+            $query = "INSERT INTO `lankymas` (`paciento_varpav`, `data`, `santykis`, `fk_Naudotojas_EPastas`) VALUES ('$patientName', '$date', '$relationship', '$sessionID');";
+
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+                echo "<script>alert('Apsilankymas sėkmingai pateiktas!');</script>";
+            } else {
+                echo "Error executing query: " . mysqli_error($conn);
+            }
+        }
+    }
+
+    submitVisitation($conn, $sessionID)
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,12 +61,12 @@
         <input type="text" id="patientName" name="patientName" class="inputfield" required>
         <br><br>
 
-        <label for="visitationDate">Kada norite aplankyti:</label>
-        <input type="date" id="visitationDate" name="visitationDate" class="inputfield" required>
+        <label for="date">Kada norite aplankyti:</label>
+        <input type="date" id="date" name="date" class="inputfield" required>
         <br><br>
 
-        <label for="visitationRelationship">Santykiai su pacientu:</label>
-        <select id="visitationRelationship" name="visitationRelationship" class="inputfield" required>
+        <label for="relationship">Santykiai su pacientu:</label>
+        <select id="relationship" name="relationship" class="inputfield" required>
             <option value="family">Šeima/Globėjas</option>
             <option value="spouse">Sutuoktinis</option>
             <option value="spouse">Draugas</option>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 11:17 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Dec 18, 2023 at 11:58 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,8 +45,7 @@ INSERT INTO `ataskaita` (`Data`, `AtaskaitosId`, `GydytojoKomentarai`, `fk_Pacie
 ('2023-12-14', 4, 'VEIKIA ANTRAS', 2),
 ('2023-12-14', 5, 'a', 1),
 ('2023-12-14', 6, 'a', 1),
-('2023-12-14', 7, 'Test', 1),
-('2023-12-15', 8, 'Pacientui reikia kito gydytojo paslaugu. NEXT', 1);
+('2023-12-14', 7, 'Test', 1);
 
 -- --------------------------------------------------------
 
@@ -99,7 +98,6 @@ INSERT INTO `gydytojas` (`id`, `Pareigos`, `Kabinetas`, `fk_Naudotojas_EPastas`)
 --
 
 CREATE TABLE `inventorius` (
-  `id` int(11) NOT NULL,
   `Pavadinimas` varchar(40) NOT NULL,
   `Kiekis` int(10) NOT NULL,
   `PaskutinisPildymas` date NOT NULL,
@@ -110,13 +108,9 @@ CREATE TABLE `inventorius` (
 -- Dumping data for table `inventorius`
 --
 
-INSERT INTO `inventorius` (`id`, `Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle`) VALUES
-(1, 'Švirkštai', 12, '2023-11-08', 'Gera'),
-(2, 'Pleistras', 550, '2023-12-16', 'Patenkinama'),
-(3, 'Pleistras', 110, '2023-12-16', 'Gera'),
-(7, 'Pleistras', 200, '2023-12-16', 'Puiki'),
-(9, 'Plaktukas', 1, '2023-12-16', 'Patenkinama'),
-(10, 'Kirvis', 15, '2023-12-16', 'Gera');
+INSERT INTO `inventorius` (`Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, `Bukle`) VALUES
+('Švirkštai', 12, '2023-11-08', 'Gera'),
+('Pleistras', 500, '2023-10-10', 'Patenkinama');
 
 -- --------------------------------------------------------
 
@@ -125,7 +119,6 @@ INSERT INTO `inventorius` (`id`, `Pavadinimas`, `Kiekis`, `PaskutinisPildymas`, 
 --
 
 CREATE TABLE `konsultacija` (
-  `id` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Laikas` time NOT NULL,
   `fk_Pacientas_AsmensKodas` int(11) NOT NULL,
@@ -136,8 +129,22 @@ CREATE TABLE `konsultacija` (
 -- Dumping data for table `konsultacija`
 --
 
-INSERT INTO `konsultacija` (`id`, `Data`, `Laikas`, `fk_Pacientas_AsmensKodas`, `fk_Gydytojas_id`) VALUES
-(2, '2023-12-20', '17:16:22', 1, 1);
+INSERT INTO `konsultacija` (`Data`, `Laikas`, `fk_Pacientas_AsmensKodas`, `fk_Gydytojas_id`) VALUES
+('2023-12-20', '16:00:00', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lankymas`
+--
+
+CREATE TABLE `lankymas` (
+  `paciento_varpav` varchar(30) NOT NULL,
+  `data` date NOT NULL,
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL,
+  `santykis` varchar(20) NOT NULL,
+  `id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 -- --------------------------------------------------------
 
@@ -268,23 +275,10 @@ INSERT INTO `tyrimo_uzsakymas` (`id`, `fk_Naudotojas_EPastas`, `Reikalavimas`, `
 --
 
 CREATE TABLE `uzsakymas` (
-  `id` int(11) NOT NULL,
   `Pavadinimas` varchar(40) NOT NULL,
   `Kiekis` int(10) NOT NULL,
-  `fk_Naudotojas_EPastas` varchar(30) NOT NULL,
-  `Papildymas` date NOT NULL,
-  `Bukle` varchar(40) NOT NULL
+  `fk_Naudotojas-EPastas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
-
---
--- Dumping data for table `uzsakymas`
---
-
-INSERT INTO `uzsakymas` (`id`, `Pavadinimas`, `Kiekis`, `fk_Naudotojas_EPastas`, `Papildymas`, `Bukle`) VALUES
-(1, 'Pleistras', 50, 'Admin@Admin.lt', '2023-12-16', 'Puiki'),
-(2, 'Plaktukas', 1, 'Admin@Admin.lt', '2023-12-16', 'Patenkinama'),
-(3, 'Kirvis', 5, 'Admin@Admin.lt', '2023-12-16', 'Gera'),
-(4, 'Kirvis', 10, 'Admin@Admin.lt', '2023-12-16', 'Gera');
 
 -- --------------------------------------------------------
 
@@ -295,7 +289,7 @@ INSERT INTO `uzsakymas` (`id`, `Pavadinimas`, `Kiekis`, `fk_Naudotojas_EPastas`,
 CREATE TABLE `vaistas` (
   `Pavadinimas` varchar(20) NOT NULL,
   `GaliojimoData` date NOT NULL,
-  `Receptinis` varchar(5) NOT NULL,
+  `Receptinis` tinyint(1) NOT NULL,
   `Pavidalas` enum('Tabletes','Kapsules','Skystis','Milteliai') NOT NULL,
   `fk_Pacientas_AsmensKodas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
@@ -305,7 +299,10 @@ CREATE TABLE `vaistas` (
 --
 
 INSERT INTO `vaistas` (`Pavadinimas`, `GaliojimoData`, `Receptinis`, `Pavidalas`, `fk_Pacientas_AsmensKodas`) VALUES
-('Gelamirtol2', '2024-12-14', '2', 'Tabletes', 1);
+('Lorem Ipsum', '2025-12-10', 1, 'Kapsules', 1),
+('Gelamirtol', '2024-12-14', 2, '', 1),
+('Kazkas', '2024-12-14', 3, '', 2),
+('Test', '2024-12-14', 4, '', 1);
 
 --
 -- Indexes for dumped tables
@@ -333,18 +330,18 @@ ALTER TABLE `gydytojas`
   ADD KEY `fk_Naudotojas_EPastas` (`fk_Naudotojas_EPastas`) USING BTREE;
 
 --
--- Indexes for table `inventorius`
---
-ALTER TABLE `inventorius`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `konsultacija`
 --
 ALTER TABLE `konsultacija`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas_id`),
   ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
+
+--
+-- Indexes for table `lankymas`
+--
+ALTER TABLE `lankymas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas_EPastas`);
 
 --
 -- Indexes for table `naudotojas`
@@ -385,15 +382,14 @@ ALTER TABLE `tyrimo_uzsakymas`
 -- Indexes for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas_EPastas`);
+  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas-EPastas`);
 
 --
 -- Indexes for table `vaistas`
 --
 ALTER TABLE `vaistas`
   ADD PRIMARY KEY (`Receptinis`),
-  ADD KEY `fk_Pacientas_AsmensKodas` (`fk_Pacientas_AsmensKodas`) USING BTREE;
+  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -403,7 +399,7 @@ ALTER TABLE `vaistas`
 -- AUTO_INCREMENT for table `ataskaita`
 --
 ALTER TABLE `ataskaita`
-  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `atsiliepimas`
@@ -418,16 +414,10 @@ ALTER TABLE `gydytojas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `inventorius`
+-- AUTO_INCREMENT for table `lankymas`
 --
-ALTER TABLE `inventorius`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `konsultacija`
---
-ALTER TABLE `konsultacija`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `lankymas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tyrimo_uzsakymas`
@@ -436,10 +426,10 @@ ALTER TABLE `tyrimo_uzsakymas`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `uzsakymas`
+-- AUTO_INCREMENT for table `vaistas`
 --
-ALTER TABLE `uzsakymas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `vaistas`
+  MODIFY `Receptinis` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -450,6 +440,58 @@ ALTER TABLE `uzsakymas`
 --
 ALTER TABLE `ataskaita`
   ADD CONSTRAINT `fk_Pacientas` FOREIGN KEY (`fk_Pacientas_id`) REFERENCES `pacientas` (`AsmensKodas`);
+
+--
+-- Constraints for table `atsiliepimas`
+--
+ALTER TABLE `atsiliepimas`
+  ADD CONSTRAINT `atsiliepimas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
+
+--
+-- Constraints for table `gydytojas`
+--
+ALTER TABLE `gydytojas`
+  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
+
+--
+-- Constraints for table `konsultacija`
+--
+ALTER TABLE `konsultacija`
+  ADD CONSTRAINT `konsultacija_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
+  ADD CONSTRAINT `konsultacija_ibfk_2` FOREIGN KEY (`fk_Pacientas_AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+
+--
+-- Constraints for table `lankymas`
+--
+ALTER TABLE `lankymas`
+  ADD CONSTRAINT `lankymas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
+
+--
+-- Constraints for table `pacientas`
+--
+ALTER TABLE `pacientas`
+  ADD CONSTRAINT `pacientas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`),
+  ADD CONSTRAINT `pacientas_ibfk_2` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`);
+
+--
+-- Constraints for table `siuntimas`
+--
+ALTER TABLE `siuntimas`
+  ADD CONSTRAINT `siuntimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`),
+  ADD CONSTRAINT `siuntimas_ibfk_2` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+
+--
+-- Constraints for table `tyrimas`
+--
+ALTER TABLE `tyrimas`
+  ADD CONSTRAINT `tyrimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
+  ADD CONSTRAINT `tyrimas_ibfk_2` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
+
+--
+-- Constraints for table `uzsakymas`
+--
+ALTER TABLE `uzsakymas`
+  ADD CONSTRAINT `uzsakymas_ibfk_1` FOREIGN KEY (`fk_Naudotojas-EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `vaistas`
