@@ -81,22 +81,38 @@ if($roleArray){
 ?>
 
 <?php
-    $roleArray = mysqli_query($conn, "SELECT Role FROM naudotojas WHERE EPastas = '$sessionID'");
-    if($roleArray){
-        while($role = mysqli_fetch_assoc($roleArray)){
-            if($role["Role"] == "Gydytojas"){
-                echo '<a href="editVaistas.php?id=' . $email . '">';
-                    echo '<input type="button" value="Keisti vaistus" class="buttonAD">';
-                echo '</a>';
-                echo '<a href="../Pacientas/calendar.php?id=' . $patientID .'">';
-                    echo '<input type="button" value="Apsilankymų istorija" class="buttonAD">';
-                echo '</a>';
-                echo '<a onclick="confirmConversion()">';
-                    echo '<input type="button" value="Konvertuoti į PDF" class="buttonAD">';
-                echo '</a>';
-            }
+$roleArray = mysqli_query($conn, "SELECT Role FROM naudotojas WHERE EPastas = '$sessionID'");
+if ($roleArray) {
+    while ($role = mysqli_fetch_assoc($roleArray)) {
+        if ($role["Role"] == "Gydytojas") {
+            // Buttons for doctor
+            echo '<a href="editVaistas.php?id=' . $email . '">';
+            echo '<input type="button" value="Keisti vaistus" class="buttonAD">';
+            echo '</a>';
+            echo '<a href="../Pacientas/calendar.php?id=' . $patientID . '">';
+            echo '<input type="button" value="Apsilankymų istorija" class="buttonAD">';
+            echo '</a>';
+            echo '<a onclick="confirmConversion()">';
+            echo '<input type="button" value="Konvertuoti į PDF" class="buttonAD">';
+            echo '</a>';
+        } else {
+            // Buttons for other users
+            echo '<a href="vaistai.php">';
+            echo '<input type="button" value="Vaistai" class="buttonAD">';
+            echo '</a>';
+            echo '<a href="tyrimas.php">';
+            echo '<input type="button" value="Tyrimai" class="buttonAD">';
+            echo '</a>';
+            echo '<a href="konsultacijos.php">';
+            echo '<input type="button" value="Konsultacijos" class="buttonAD">';
+            echo '</a>';
+            echo '<a href="pacientas.php">';
+            echo '<input type="button" value="Siuntimai" class="buttonAD">';
+            echo '</a>';
         }
     }
+}
+?>
 ?>
 <footer>
     <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>

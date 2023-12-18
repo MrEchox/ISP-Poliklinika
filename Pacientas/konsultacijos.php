@@ -83,9 +83,7 @@ if ($konsultacijaResult && $konsultacijaResult->num_rows > 0) {
 <a href="paciento_profilils.php">
     <input type="button" value="Grysti" class="buttonAD">
 </a>
-<a href="paciento_profilils.html">
-    <input type="button" value="Keisti konsultacijas" class="buttonAD">
-</a>
+
 
 <footer>
     <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
