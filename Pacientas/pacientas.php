@@ -40,7 +40,7 @@ else {
 <!-- NAVBAR -->
 <div class="navbar">
     <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-    <a class="right" href="pacientas.html">Grįžti</a>
+    <a class="right" href="paciento_profilils.php">Grįžti</a>
 </div>
 
 <!-- Display siuntimas data for the logged-in user -->
