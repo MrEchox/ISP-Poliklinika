@@ -27,6 +27,9 @@ else{
         else if($row["Role"] == "Administratorius"){
             echo '<a href="Admin/Administratorius.php">Keisti roles</a>'; //gali ir cia prisidet jei nori, make it make sense krc
         }
+        else if($row["Role"] == "Svecias"){
+            echo '<a href="Svecias/svecias.php">Į sistemą</a>';
+        }
         echo'<a class="right" href="logout.php">Atsijungti</a>';
         echo '</div>';
     ?>

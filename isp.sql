@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 11:53 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Dec 18, 2023 at 01:43 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,18 +55,19 @@ INSERT INTO `ataskaita` (`Data`, `AtaskaitosId`, `GydytojoKomentarai`, `fk_Pacie
 
 CREATE TABLE `atsiliepimas` (
   `id` int(11) NOT NULL,
-  `Data` date NOT NULL,
+  `Data` date DEFAULT NULL,
   `Ivertis` int(1) NOT NULL,
   `Komentaras` text NOT NULL,
-  `fk_Pacientas-AsmensKodas` int(11) NOT NULL
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `atsiliepimas`
 --
 
-INSERT INTO `atsiliepimas` (`id`, `Data`, `Ivertis`, `Komentaras`, `fk_Pacientas-AsmensKodas`) VALUES
-(1, '2023-12-02', 5, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae venenatis elit. Fusce eu purus ac nibh lacinia eleifend. Duis pretium tempor auctor. Sed id ante feugiat, placerat dui id, commodo purus. Sed non convallis dui. Donec elit ipsum, bibendum vitae tristique ac, ornare ac nunc. Duis et felis porta, interdum lacus aliquam, bibendum justo. Cras ultrices urna sit amet elit iaculis, nec fringilla eros aliquet. Suspendisse eget aliquet leo, et volutpat libero. Proin nec orci dapibus, congue mauris at, luctus turpis. Praesent id quam a turpis dapibus malesuada vel eu magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras finibus lacus justo, eu ultrices magna commodo id.', 1);
+INSERT INTO `atsiliepimas` (`id`, `Data`, `Ivertis`, `Komentaras`, `fk_Naudotojas_EPastas`) VALUES
+(2, '0000-00-00', 4, 'aa', 'Svecias@Svecias.lt'),
+(3, '2023-11-30', 2, 'Lorem Ipsum', 'Svecias@Svecias.lt');
 
 -- --------------------------------------------------------
 
@@ -220,16 +221,38 @@ CREATE TABLE `tyrimas` (
   `Svarba` varchar(10) NOT NULL,
   `Kaina` int(10) NOT NULL,
   `Busena` tinyint(1) NOT NULL,
-  `fk_Pacientas-AsmensKodas` int(11) NOT NULL,
-  `fk_Gydytojas-id` int(11) NOT NULL
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL,
+  `fk_Gydytojas_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
 
 --
 -- Dumping data for table `tyrimas`
 --
 
-INSERT INTO `tyrimas` (`Pavadinimas`, `Analize`, `Svarba`, `Kaina`, `Busena`, `fk_Pacientas-AsmensKodas`, `fk_Gydytojas-id`) VALUES
-('Tyrimas Test', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam, velit ut sagittis vulputate, nisl nunc rhoncus nibh, vel tincidunt.', 'Svarbu', 1174, 0, 1, 1);
+INSERT INTO `tyrimas` (`Pavadinimas`, `Analize`, `Svarba`, `Kaina`, `Busena`, `fk_Naudotojas_EPastas`, `fk_Gydytojas_id`) VALUES
+('Lorem Ipsum', 'aaasqasadasdasd', 'aa', 11, 0, 'mantas@mantas.com', 4),
+('Tyrimas Test 1', 'aaaaaaa', 'Svarbu', 1174, 0, 'Svecias@Svecias.lt', 4),
+('Tyrimas Test 2', 'bbbb', 'Svarbu', 22, 0, 'Svecias@Svecias.lt', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tyrimo_uzsakymas`
+--
+
+CREATE TABLE `tyrimo_uzsakymas` (
+  `id` int(50) NOT NULL,
+  `fk_Naudotojas_EPastas` varchar(30) NOT NULL,
+  `Reikalavimas` varchar(20) DEFAULT NULL,
+  `Skausmai` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
+
+--
+-- Dumping data for table `tyrimo_uzsakymas`
+--
+
+INSERT INTO `tyrimo_uzsakymas` (`id`, `fk_Naudotojas_EPastas`, `Reikalavimas`, `Skausmai`) VALUES
+(1, 'Svecias@Svecias.lt', 'aaa', 'bbb');
 
 -- --------------------------------------------------------
 
@@ -283,7 +306,7 @@ ALTER TABLE `ataskaita`
 --
 ALTER TABLE `atsiliepimas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas-AsmensKodas`);
+  ADD KEY `fk_Naudotojas_EPastas` (`fk_Naudotojas_EPastas`);
 
 --
 -- Indexes for table `gydytojas`
@@ -325,8 +348,14 @@ ALTER TABLE `siuntimas`
 --
 ALTER TABLE `tyrimas`
   ADD PRIMARY KEY (`Pavadinimas`),
-  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas-id`),
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas-AsmensKodas`);
+  ADD KEY `fk_Gydytojas-id` (`fk_Gydytojas_id`),
+  ADD KEY `fk_Naudotojas-EPastas` (`fk_Naudotojas_EPastas`);
+
+--
+-- Indexes for table `tyrimo_uzsakymas`
+--
+ALTER TABLE `tyrimo_uzsakymas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `uzsakymas`
@@ -355,13 +384,19 @@ ALTER TABLE `ataskaita`
 -- AUTO_INCREMENT for table `atsiliepimas`
 --
 ALTER TABLE `atsiliepimas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `gydytojas`
 --
 ALTER TABLE `gydytojas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tyrimo_uzsakymas`
+--
+ALTER TABLE `tyrimo_uzsakymas`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vaistas`
@@ -383,7 +418,7 @@ ALTER TABLE `ataskaita`
 -- Constraints for table `atsiliepimas`
 --
 ALTER TABLE `atsiliepimas`
-  ADD CONSTRAINT `atsiliepimas_ibfk_1` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+  ADD CONSTRAINT `atsiliepimas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `gydytojas`
@@ -416,8 +451,8 @@ ALTER TABLE `siuntimas`
 -- Constraints for table `tyrimas`
 --
 ALTER TABLE `tyrimas`
-  ADD CONSTRAINT `tyrimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`),
-  ADD CONSTRAINT `tyrimas_ibfk_2` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
+  ADD CONSTRAINT `tyrimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
+  ADD CONSTRAINT `tyrimas_ibfk_2` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `uzsakymas`
