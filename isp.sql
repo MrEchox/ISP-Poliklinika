@@ -1,12 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 01:43 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
-
+-- Generation Time: Dec 18, 2023 at 11:17 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,7 +45,8 @@ INSERT INTO `ataskaita` (`Data`, `AtaskaitosId`, `GydytojoKomentarai`, `fk_Pacie
 ('2023-12-14', 4, 'VEIKIA ANTRAS', 2),
 ('2023-12-14', 5, 'a', 1),
 ('2023-12-14', 6, 'a', 1),
-('2023-12-14', 7, 'Test', 1);
+('2023-12-14', 7, 'Test', 1),
+('2023-12-15', 8, 'Pacientui reikia kito gydytojo paslaugu. NEXT', 1);
 
 -- --------------------------------------------------------
 
@@ -295,7 +295,7 @@ INSERT INTO `uzsakymas` (`id`, `Pavadinimas`, `Kiekis`, `fk_Naudotojas_EPastas`,
 CREATE TABLE `vaistas` (
   `Pavadinimas` varchar(20) NOT NULL,
   `GaliojimoData` date NOT NULL,
-  `Receptinis` tinyint(1) NOT NULL,
+  `Receptinis` varchar(5) NOT NULL,
   `Pavidalas` enum('Tabletes','Kapsules','Skystis','Milteliai') NOT NULL,
   `fk_Pacientas_AsmensKodas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_lithuanian_ci;
@@ -305,10 +305,7 @@ CREATE TABLE `vaistas` (
 --
 
 INSERT INTO `vaistas` (`Pavadinimas`, `GaliojimoData`, `Receptinis`, `Pavidalas`, `fk_Pacientas_AsmensKodas`) VALUES
-('Lorem Ipsum', '2025-12-10', 1, 'Kapsules', 1),
-('Gelamirtol', '2024-12-14', 2, '', 1),
-('Kazkas', '2024-12-14', 3, '', 2),
-('Test', '2024-12-14', 4, '', 1);
+('Gelamirtol2', '2024-12-14', '2', 'Tabletes', 1);
 
 --
 -- Indexes for dumped tables
@@ -396,7 +393,7 @@ ALTER TABLE `uzsakymas`
 --
 ALTER TABLE `vaistas`
   ADD PRIMARY KEY (`Receptinis`),
-  ADD KEY `fk_Pacientas-AsmensKodas` (`fk_Pacientas_AsmensKodas`);
+  ADD KEY `fk_Pacientas_AsmensKodas` (`fk_Pacientas_AsmensKodas`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -406,7 +403,7 @@ ALTER TABLE `vaistas`
 -- AUTO_INCREMENT for table `ataskaita`
 --
 ALTER TABLE `ataskaita`
-  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `AtaskaitosId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `atsiliepimas`
@@ -421,12 +418,6 @@ ALTER TABLE `gydytojas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
-
--- AUTO_INCREMENT for table `tyrimo_uzsakymas`
---
-ALTER TABLE `tyrimo_uzsakymas`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 -- AUTO_INCREMENT for table `inventorius`
 --
 ALTER TABLE `inventorius`
@@ -439,17 +430,16 @@ ALTER TABLE `konsultacija`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `tyrimo_uzsakymas`
+--
+ALTER TABLE `tyrimo_uzsakymas`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `uzsakymas`
 --
 ALTER TABLE `uzsakymas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
->
-
---
--- AUTO_INCREMENT for table `vaistas`
---
-ALTER TABLE `vaistas`
-  MODIFY `Receptinis` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -460,52 +450,6 @@ ALTER TABLE `vaistas`
 --
 ALTER TABLE `ataskaita`
   ADD CONSTRAINT `fk_Pacientas` FOREIGN KEY (`fk_Pacientas_id`) REFERENCES `pacientas` (`AsmensKodas`);
-
---
--- Constraints for table `atsiliepimas`
---
-ALTER TABLE `atsiliepimas`
-  ADD CONSTRAINT `atsiliepimas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
-
---
--- Constraints for table `gydytojas`
---
-ALTER TABLE `gydytojas`
-  ADD CONSTRAINT `gydytojas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
-
---
--- Constraints for table `konsultacija`
---
-ALTER TABLE `konsultacija`
-  ADD CONSTRAINT `konsultacija_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
-  ADD CONSTRAINT `konsultacija_ibfk_2` FOREIGN KEY (`fk_Pacientas_AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
-
---
--- Constraints for table `pacientas`
---
-ALTER TABLE `pacientas`
-  ADD CONSTRAINT `pacientas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`),
-  ADD CONSTRAINT `pacientas_ibfk_2` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`);
-
---
--- Constraints for table `siuntimas`
---
-ALTER TABLE `siuntimas`
-  ADD CONSTRAINT `siuntimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas-id`) REFERENCES `gydytojas` (`id`),
-  ADD CONSTRAINT `siuntimas_ibfk_2` FOREIGN KEY (`fk_Pacientas-AsmensKodas`) REFERENCES `pacientas` (`AsmensKodas`);
-
---
--- Constraints for table `tyrimas`
---
-ALTER TABLE `tyrimas`
-  ADD CONSTRAINT `tyrimas_ibfk_1` FOREIGN KEY (`fk_Gydytojas_id`) REFERENCES `gydytojas` (`id`),
-  ADD CONSTRAINT `tyrimas_ibfk_2` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
-
---
--- Constraints for table `uzsakymas`
---
-ALTER TABLE `uzsakymas`
-  ADD CONSTRAINT `uzsakymas_ibfk_1` FOREIGN KEY (`fk_Naudotojas_EPastas`) REFERENCES `naudotojas` (`EPastas`);
 
 --
 -- Constraints for table `vaistas`
