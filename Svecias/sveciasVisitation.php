@@ -1,4 +1,14 @@
-<!-- Svečio posisteme -->
+<?php
+    require '../config.php';
+    if(!empty($_SESSION["id"])){
+        $sessionID = $_SESSION["id"];
+        $result = mysqli_query($conn, "SELECT * FROM naudotojas WHERE EPastas = '$sessionID'");
+        $row = mysqli_fetch_assoc($result);
+    }
+    else{
+        header("Location: login.php");
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,19 +18,21 @@
 </head>
 <body>
     <!-- NAVBAR -->
-    <div class="navbar">
-        <a class="logo"><img src="../LOGO.png" alt="Logo" width="44" height="32"></a>
-        <a href="../home.html">Pradžia</a>
-        <a href="../info.html">Informacija</a>
-        <a href="sveciasExamView.html">Tyrimai</a>
-        <a href="sveciasVisitation.html">Aplankymai</a>
-        <a href="sveciasReviews.html">Atsiliepimai</a>
-        <a class="right" href="../profile.html">Mano informacija</a>
-    </div>
-    <footer>
-        <p font-size="14px">@KTU Informatikos Fakultetas | Informacinių sistemų pagrindai</p>
-    </footer>
-    <br>
+    <?php
+        echo '<div class="navbar">';
+        echo '<a href="../index.php">Pradžia</a>';
+        echo '<a href="../info.php">Informacija</a>';
+        if($row["Role"] == "Svecias"){
+            echo '<a href="sveciasExamView.php">Tyrimų peržiūra ir užsakymas</a>';
+            echo '<a href="sveciasReviews.php">Pateikti atsiliepimą</a>';
+            echo '<a href="sveciasVisitation.php">Registruotis paciento aplankymui</a>';
+        }
+        else{
+            header("Location: ../index.php");
+        }
+        echo'<a class="right" href="../logout.php">Atsijungti</a>';
+        echo '</div>';
+    ?>
     <!-- ---- -->
 
     <h2>Registracija paciento aplankymui</h2> 
