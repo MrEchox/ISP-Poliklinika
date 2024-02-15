@@ -16,4 +16,4 @@ University semester task for computer-science students.
 
 ## What is this project?
 
-This project is a polyclinic information system for the KTU subject "Information systems basics P170B114". This is a simple IS made with HTML, CSS, JavaScript and MySQL.
+This project is a polyclinic information system for the KTU subject "Information systems basics P170B114". This is a simple IS made with HTML, CSS, PHP and MySQL.
